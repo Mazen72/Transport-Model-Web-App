@@ -133,9 +133,9 @@ Grunnkrets = ['3012401 Tøyen Rode 1', '3012408 Tøyen Rode 8', '3012409 Tøyen 
 #text=14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))
 #font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
 
-text_font_size='1.8vh'
-navbar_font_size='2.2vh'
-header_font_size='2.2vh'
+text_font_size='1.6vh'
+navbar_font_size='2vh'
+header_font_size='2vh'
 
 
 encoded = base64.b64encode(open('kth.jpg', 'rb').read())
@@ -265,7 +265,7 @@ simulation_type_menu=  dcc.Dropdown(
 # width='12%', marginLeft='1520px' marginTop='-400px' fontSize=26
 #display='inline-block',  border='2px solid #082255',
 simulation_type_menu_div= html.Div([simulation_type_menu],
-                          style=dict(fontSize='1.7vh',
+                          style=dict(fontSize=text_font_size,
                                       marginLeft='2vh',marginBottom='-2vh'))
 
 db_simulation_type_menu=dbc.Col([simulation_type_text,simulation_type_menu_div,html.Br(),html.Br()],
@@ -288,7 +288,7 @@ model_type_menu=  dcc.Dropdown(
     )
 #display='inline-block',border='2px solid #082255',
 model_type_menu_div= html.Div([model_type_menu],
-                          style=dict( fontSize='1.7vh',
+                          style=dict( fontSize=text_font_size,
                                       marginLeft='2vh',marginBottom='-2vh'))
 
 db_model_type_menu=dbc.Col([model_type_text,model_type_menu_div,html.Br(),html.Br()],
@@ -313,7 +313,7 @@ city_menu=  dcc.Dropdown(
     )
 #display='inline-block',border='2px solid #082255'
 city_menu_div= html.Div([city_menu],
-                          style=dict( fontSize='1.7vh',
+                          style=dict( fontSize=text_font_size,
                                       marginLeft='2vh',marginBottom='-2vh'))
 
 db_city_menu=dbc.Col([city_text,city_menu_div,html.Br()],
@@ -420,13 +420,13 @@ app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(background
                       dbc.Row([db_navigation_header]),html.Br(),
                       dbc.Row([db_map_header1,db_map_header2]),
                       dbc.Row([db_map_div1,db_map_div2]),html.Br(),
-                      dbc.Row([db_simulation_type_menu,db_model_type_menu,db_city_menu]),html.Br(),
+                      dbc.Row([db_simulation_type_menu,db_model_type_menu,db_city_menu]),
                       dbc.Row([db_scenario_header]),html.Br(),
                       dbc.Row([db_navigation_header2]),html.Br(),
                       dbc.Row([dbc.Col([
                       dbc.Container([dbc.Row(db_multiple_param),html.Div([],id='container'),
                                      dbc.Row(db_3_buttons)],
-                                    style=dict(border='2px solid black'),fluid=True
+                                    style=dict(border='2px solid black',maxHeight='35vh',overflow='scroll'),fluid=True
                       )
 
                       ],   xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
@@ -508,7 +508,7 @@ def add_parameter(n_clicks,container_content,city_subdivision):
                                        width='20vh', backgroundColor='skyblue', border='1px solid black')
     )
 
-    scenario_selection_menu_div = html.Div([parameter_menu],style=dict(fontSize='1.7vh',marginLeft='2vh', marginBottom='-2vh'))
+    scenario_selection_menu_div = html.Div([parameter_menu],style=dict(fontSize=text_font_size,marginLeft='2vh', marginBottom='-2vh'))
 
     db_scenario_selection_menu = dbc.Col([scenario_selection_text, scenario_selection_menu_div, html.Br(), html.Br()],
                                          xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
@@ -527,7 +527,7 @@ def add_parameter(n_clicks,container_content,city_subdivision):
                                              width='17vh', backgroundColor='skyblue', border='1px solid black')
     )
 
-    subdivision_menu_div = html.Div([subdivision_menu],style=dict(fontSize='1.7vh',marginLeft='2vh', marginBottom='-2vh'))
+    subdivision_menu_div = html.Div([subdivision_menu],style=dict(fontSize=text_font_size,marginLeft='2vh', marginBottom='-2vh'))
 
     db_subdivision_menu = dbc.Col([subdivision_text, subdivision_menu_div, html.Br(), html.Br()],
                                   xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
