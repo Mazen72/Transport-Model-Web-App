@@ -133,7 +133,7 @@ Grunnkrets = ['3012401 Tøyen Rode 1', '3012408 Tøyen Rode 8', '3012409 Tøyen 
 #text=14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))
 #font-size: calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));
 
-text_font_size='1.6vh'
+text_font_size='1.7vh'
 navbar_font_size='2vh'
 header_font_size='2vh'
 
@@ -197,13 +197,19 @@ myfig=go.Figure(data=locations,layout= go.Layout(
 myfig.update_layout(mapbox_style="open-street-map")
 #carto-positron
 #open-street-map
+
+map_header1=html.H1('Existing Transport Model (2019 flows)',
+                           style=dict(fontSize=header_font_size,fontWeight='bold',color='black'))
+map_header2=html.H1('Simulated Transport Scenario',
+                           style=dict(fontSize=header_font_size,fontWeight='bold',color='black'))
+
 map_div1=html.Div([
             dcc.Graph(id='map1', config={'displayModeBar': True, 'scrollZoom': True,'displaylogo': False},
                 style={'height':'60vh'} ,figure=myfig
             ) ]
         )
 
-db_map_div1=dbc.Col([ map_div1] ,
+db_map_div1=dbc.Col([ map_header1,map_div1,html.Br()] ,
         xs=dict(size=10,offset=1), sm=dict(size=10,offset=1),
         md=dict(size=5,offset=1), lg=dict(size=5,offset=1), xl=dict(size=5,offset=1))
 
@@ -213,7 +219,7 @@ map_div2=html.Div([
             ) ]
         )
 
-db_map_div2=dbc.Col([ map_div2] ,
+db_map_div2=dbc.Col([ map_header2,map_div2] ,
         xs=dict(size=10,offset=1), sm=dict(size=10,offset=1),
         md=dict(size=5,offset=0), lg=dict(size=5,offset=0), xl=dict(size=5,offset=0))
 
@@ -232,10 +238,7 @@ db_navigation_header=dbc.Col([navigation_header],
                              xs=dict(size=12, offset=0), sm=dict(size=12, offset=0),
                              md=dict(size=12, offset=0), lg=dict(size=8, offset=0), xl=dict(size=8, offset=0)
                              )
-map_header1=html.H1('Existing Transport Model (2019 flows)',
-                           style=dict(fontSize=header_font_size,fontWeight='bold',color='black'))
-map_header2=html.H1('Simulated Transport Scenario',
-                           style=dict(fontSize=header_font_size,fontWeight='bold',color='black'))
+
 ##1e90ff
 db_map_header1=dbc.Col([map_header1],
                              xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
@@ -266,16 +269,16 @@ simulation_type_menu=  dcc.Dropdown(
 #display='inline-block',  border='2px solid #082255',
 simulation_type_menu_div= html.Div([simulation_type_menu],
                           style=dict(fontSize=text_font_size,
-                                      marginLeft='2vh',marginBottom='-2vh'))
+                                      marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
 
-db_simulation_type_menu=dbc.Col([simulation_type_text,simulation_type_menu_div,html.Br(),html.Br()],
-                             xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                             md=dict(size=10, offset=1), lg=dict(size=3, offset=1), xl=dict(size=3, offset=1)
-                             )
+#db_simulation_type_menu=dbc.Col([simulation_type_text,simulation_type_menu_div,html.Br(),html.Br()],
+                             #xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
+                            # md=dict(size=10, offset=1), lg=dict(size=3, offset=1), xl=dict(size=3, offset=1)
+                            # )
 
 model_type_text=html.Div(html.H1('Transport Model Used For Simulation:',
                            style=dict(fontSize=text_font_size,fontWeight='bold',color='black',marginTop='1vh')),
-                         style=dict(display='inline-block'))
+                         style=dict(display='inline-block',marginLeft='3vh'))
 
 
 model_type_menu=  dcc.Dropdown(
@@ -289,18 +292,18 @@ model_type_menu=  dcc.Dropdown(
 #display='inline-block',border='2px solid #082255',
 model_type_menu_div= html.Div([model_type_menu],
                           style=dict( fontSize=text_font_size,
-                                      marginLeft='2vh',marginBottom='-2vh'))
+                                      marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
 
-db_model_type_menu=dbc.Col([model_type_text,model_type_menu_div,html.Br(),html.Br()],
-                             xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                             md=dict(size=10, offset=1), lg=dict(size=3, offset=0), xl=dict(size=3, offset=0)
-                             )
+#db_model_type_menu=dbc.Col([model_type_text,model_type_menu_div,html.Br(),html.Br()],
+                           #  xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
+                            # md=dict(size=10, offset=1), lg=dict(size=3, offset=0), xl=dict(size=3, offset=0)
+                       #      )
 
 
 
 city_text=html.Div(html.H1('City Subdivisons:',
                            style=dict(fontSize=text_font_size,fontWeight='bold',color='black',marginTop='1vh')),
-                         style=dict(display='inline-block'))
+                         style=dict(display='inline-block',marginLeft='3vh'))
 
 
 city_menu=  dcc.Dropdown(
@@ -314,11 +317,12 @@ city_menu=  dcc.Dropdown(
 #display='inline-block',border='2px solid #082255'
 city_menu_div= html.Div([city_menu],
                           style=dict( fontSize=text_font_size,
-                                      marginLeft='2vh',marginBottom='-2vh'))
+                                      marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
 
-db_city_menu=dbc.Col([city_text,city_menu_div,html.Br()],
-                             xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                             md=dict(size=10, offset=1), lg=dict(size=3, offset=0), xl=dict(size=3, offset=0)
+db_dropdowns=dbc.Col([simulation_type_text,simulation_type_menu_div,model_type_text,model_type_menu_div,
+                      city_text,city_menu_div],
+                             xs=dict(size=7, offset=3), sm=dict(size=7, offset=3),
+                             md=dict(size=11, offset=1), lg=dict(size=11, offset=1), xl=dict(size=11, offset=1)
                              )
 
 
@@ -359,7 +363,7 @@ scenario_selection_text=html.Div(html.H1('Select Parameter for Simulation: ',
 
 
 subdivision_text=html.Div(html.H1('Select the Subdivision: ',
-                           style=dict(fontSize=text_font_size,fontWeight='bold',color='black',marginTop='1vh')),
+                           style=dict(fontSize=text_font_size,fontWeight='bold',color='black',marginTop='1vh',marginLeft='3vh')),
                            style=dict(display='inline-block'))
 
 
@@ -382,7 +386,7 @@ existing_param_text=html.Div(html.H1('Existing 2019 parameter value: ',
 
 revised_param_text=html.Div(html.H1('Revised Parameter Value For Simulation: ',
                            style=dict(fontSize=text_font_size,fontWeight='bold',color='black',marginTop='1vh')),
-                           style=dict(display='inline-block'))
+                           style=dict(display='inline-block',marginLeft='2vh'))
 
 
 variation_text=html.Div(html.H1('+3.28% variation.. ',
@@ -418,9 +422,8 @@ db_download_pdf=dbc.Col([html.Br(),download_pdf],
 
 app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(backgroundColor='#2358a6') ),
                       dbc.Row([db_navigation_header]),html.Br(),
-                      dbc.Row([db_map_header1,db_map_header2]),
-                      dbc.Row([db_map_div1,db_map_div2]),html.Br(),
-                      dbc.Row([db_simulation_type_menu,db_model_type_menu,db_city_menu]),
+                      dbc.Row([db_map_div1,db_map_div2]),
+                      dbc.Row([db_dropdowns]),html.Br(),
                       dbc.Row([db_scenario_header]),html.Br(),
                       dbc.Row([db_navigation_header2]),html.Br(),
                       dbc.Row([dbc.Col([
@@ -430,7 +433,7 @@ app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(background
                       )
 
                       ],   xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                             md=dict(size=10, offset=1), lg=dict(size=9, offset=1), xl=dict(size=9, offset=1))
+                             md=dict(size=10, offset=1), lg=dict(size=10, offset=1), xl=dict(size=10, offset=1))
                           ]),
                       dbc.Row(db_download_pdf)
 
@@ -508,13 +511,8 @@ def add_parameter(n_clicks,container_content,city_subdivision):
                                        width='20vh', backgroundColor='skyblue', border='1px solid black')
     )
 
-    scenario_selection_menu_div = html.Div([parameter_menu],style=dict(fontSize=text_font_size,marginLeft='2vh', marginBottom='-2vh'))
-
-    db_scenario_selection_menu = dbc.Col([scenario_selection_text, scenario_selection_menu_div, html.Br(), html.Br()],
-                                         xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                                         md=dict(size=10, offset=1), lg=dict(size=4, offset=0),
-                                         xl=dict(size=4, offset=0)
-                                         )
+    scenario_selection_menu_div = html.Div([parameter_menu],style=dict(fontSize=text_font_size,marginLeft='1vh',
+                                                                       marginBottom='-2vh',display='inline-block'))
 
     subdivision_menu = dcc.Dropdown(
         id={
@@ -527,57 +525,51 @@ def add_parameter(n_clicks,container_content,city_subdivision):
                                              width='17vh', backgroundColor='skyblue', border='1px solid black')
     )
 
-    subdivision_menu_div = html.Div([subdivision_menu],style=dict(fontSize=text_font_size,marginLeft='2vh', marginBottom='-2vh'))
+    subdivision_menu_div = html.Div([subdivision_menu],style=dict(fontSize=text_font_size,marginLeft='1vh',
+                                                                  marginBottom='-2vh',display='inline-block'))
 
-    db_subdivision_menu = dbc.Col([subdivision_text, subdivision_menu_div, html.Br(), html.Br()],
+    db_menus = dbc.Col([scenario_selection_text,scenario_selection_menu_div,
+                        subdivision_text, subdivision_menu_div, html.Br()],
                                   xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                                  md=dict(size=10, offset=1), lg=dict(size=4, offset=0), xl=dict(size=4, offset=0)
+                                  md=dict(size=10, offset=0), lg=dict(size=10, offset=0), xl=dict(size=10, offset=0)
                                   )
 
     existing_input = dbc.Input(id={'type': 'existing_input_dynamic','index': n_clicks},
                               placeholder='Enter Value', n_submit=0,value=subdivisions[0].split()[0],
                               type='number', size="md", autocomplete='off',
-                              style=dict(width='20vh', border='1px solid black')
+                              style=dict(width='15vh', border='1px solid black')
                                      )
 
     existing_param_input_div = html.Div([existing_input],
-                                        style=dict(fontSize='1.7vh', marginLeft='2vh', marginBottom='-2vh'))
+                                        style=dict(fontSize='1.7vh', marginLeft='1vh', marginBottom='-2vh',display='inline-block'))
 
-    db_existing_param_input = dbc.Col([existing_param_text, existing_param_input_div, html.Br(), html.Br()],
-                                      xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                                      md=dict(size=10, offset=1), lg=dict(size=4, offset=0), xl=dict(size=4, offset=0)
-                                      )
 
     revised_input=dbc.Input(id={'type': 'revised_input_dynamic','index': n_clicks},
                          placeholder='Enter Value', n_submit=0,
                          type='number', size="md",autocomplete='off',
-                         style=dict(width='20vh',border='1px solid black'))
+                         style=dict(width='15vh',border='1px solid black'))
 
-    revised_param_input_div = html.Div([revised_input],style=dict(fontSize='1.7vh',marginLeft='2vh', marginBottom='-2vh'))
+    revised_param_input_div =html.Div([revised_input],style=dict(fontSize='1.7vh',marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
 
-    db_revised_param_input = dbc.Col([revised_param_text, revised_param_input_div, html.Br(), html.Br()],
-                                     xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                                     md=dict(size=10, offset=1), lg=dict(size=4, offset=0), xl=dict(size=4, offset=0)
-                                     )
 
     checklist_input = html.Div([dbc.Checklist(id={'type': 'check_list_dynamic','index': n_clicks},
         options=[
             {"label": "", "value": 1},
-        ],value=[1])], style=dict(display='inline-block'))
+        ],value=[1])], style=dict(display='inline-block',marginLeft='2vh'))
 
     ok_button = html.Div([dbc.Button("OK", color="primary", size='sm', n_clicks=0,
                                       id={'type': 'ok_button_dynamic', 'index': n_clicks},
                                       style=dict(fontSize='1.8vh')
                                      )], style=dict(display='inline-block'))
 
-    db_ok_button = dbc.Col([checklist_input, variation_text, ok_button, html.Br(), html.Br()],
+    db_inputs = dbc.Col([existing_param_text,existing_param_input_div,revised_param_text,revised_param_input_div,
+                         checklist_input, variation_text, ok_button, html.Br(), html.Br()],
                            xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                           md=dict(size=10, offset=1), lg=dict(size=4, offset=0), xl=dict(size=4, offset=0),
-                           style=dict(marginLeft='')
+                           md=dict(size=10, offset=0), lg=dict(size=11, offset=0), xl=dict(size=11, offset=0),
+                           style=dict()
                            )
 
-    new_div=html.Div([html.Br(),dbc.Row([db_scenario_selection_menu,db_subdivision_menu]),
-                    dbc.Row([db_existing_param_input,db_revised_param_input,db_ok_button])  ])
+    new_div=html.Div([html.Br(),dbc.Row([db_menus]),html.Br(),dbc.Row([db_inputs])])
 
     container_content.append(new_div)
 
