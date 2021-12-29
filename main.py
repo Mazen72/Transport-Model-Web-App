@@ -20,6 +20,7 @@ import base64
 import plotly.express as px
 import plotly.graph_objects as go
 from string import digits
+import Functions
 
 server = Flask(__name__)
 app = dash.Dash(
@@ -228,6 +229,21 @@ fig2.update_layout(mapbox_style="open-street-map")
 #open-street-map
 #stamen-terrain
 
+map_type=dbc.RadioItems(
+    options=[
+        {"label": "Line Map", "value": 'line_map'},
+        {"label": "Size Map", "value": 'size_map'},
+
+    ],
+    value='line_map',
+    id="map_type", style=dict(fontSize='1.5vh',marginLeft='0.5vh')
+)
+
+db_map_type=dbc.Col([map_type] ,
+        xs=dict(size=10,offset=0), sm=dict(size=10,offset=1),
+        md=dict(size=2,offset=0), lg=dict(size=1,offset=0), xl=dict(size=1,offset=0))
+
+
 map_header1=html.Div(html.H1('Existing Transport Model (2019 flows)',
                            style=dict(fontSize=header_font_size,fontWeight='bold',color='black')) ,style=dict(display='inline-block'))
 map_header2=html.Div(html.H1('Simulated Transport Scenario',
@@ -257,7 +273,7 @@ map_style_menu_div= html.Div([map_style_menu],
 
 db_map_div1=dbc.Col([ map_header1,map_style_menu_div,map_div1] ,
         xs=dict(size=10,offset=1), sm=dict(size=10,offset=1),
-        md=dict(size=10,offset=1), lg=dict(size=5,offset=1), xl=dict(size=5,offset=1))
+        md=dict(size=8,offset=0), lg=dict(size=5,offset=0), xl=dict(size=5,offset=0))
 
 map_div2=html.Div([
             dcc.Graph(id='map2', config={'displayModeBar': True, 'scrollZoom': True,'displaylogo': False},
@@ -282,7 +298,7 @@ map_style_menu_div2= html.Div([map_style_menu2],
 
 db_map_div2=dbc.Col([ map_header2,map_style_menu_div2,map_div2] ,
         xs=dict(size=10,offset=1), sm=dict(size=10,offset=1),
-        md=dict(size=10,offset=1), lg=dict(size=5,offset=0), xl=dict(size=5,offset=0))
+        md=dict(size=8,offset=1), lg=dict(size=5,offset=0), xl=dict(size=5,offset=0))
 
 
 
@@ -485,7 +501,7 @@ db_download_pdf=dbc.Col([html.Br(),download_pdf],
 
 app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(backgroundColor='#2358a6') ),
                       dbc.Row([db_navigation_header]),html.Br(),
-                      dbc.Row([db_map_div1,db_map_div2]),html.Br(),
+                      dbc.Row([db_map_type,db_map_div1,db_map_div2]),html.Br(),
                       dbc.Row([db_dropdowns]),html.Br(),
                       dbc.Row([db_scenario_header]),html.Br(),
                       dbc.Row([db_navigation_header2]),html.Br(),
@@ -653,12 +669,24 @@ def add_parameter(n_clicks,container_content,city_subdivision):
 
 #map_style_dropdown
 @app.callback(Output('map1', 'figure'),
-             [Input('map_style_dropdown', 'value')], # this triggers the event
+             [Input('map_style_dropdown', 'value'),Input('map_type', 'value')], # this triggers the event
              [State('map1', 'figure')]
               ,prevent_initial_call=True)
-def update_map1_style(style,fig):
-    fig['layout']['mapbox']['style']=style
-    return fig
+def update_map1(style,type,fig):
+    df = pd.read_csv('Params.csv')
+    ctx = dash.callback_context
+    if ctx.triggered:
+        input_id = ctx.triggered[0]['prop_id'].split('.')[0]
+        if input_id == 'map_style_dropdown':
+            fig['layout']['mapbox']['style'] = style
+            return fig
+
+        elif input_id== 'map_type':
+            if type == 'line_map':
+                return Functions.create_line_map1(df,fig['layout']['mapbox']['style'])
+            elif type == 'size_map':
+                return Functions.create_size_map1(df,fig['layout']['mapbox']['style'])
+
 
 
 @app.callback(Output('map2', 'figure'),
@@ -668,6 +696,7 @@ def update_map1_style(style,fig):
 def update_map2_style(style,fig):
     fig['layout']['mapbox']['style']=style
     return fig
+
 
 
 
