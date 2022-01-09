@@ -1,7 +1,8 @@
 import pandas as pd
 import plotly.graph_objects as go
 
-def create_line_map1(df,style):
+
+def create_line_map1(df, style):
     hov_text = []
     for ind in df.index:
         hov_text.append('Origin : {}<br>Destination : {}<br>Trips : {}<br>Population : {}'.format(df['Origin'][ind],
@@ -50,7 +51,8 @@ def create_line_map1(df,style):
     fig.update_layout(mapbox_style=style)
     return fig
 
-def create_size_map1(df,style):
+
+def create_size_map1(df, style):
     dist_df = df.groupby(['Destination', 'lon-dist', 'lat-dist'])['Trips'].sum()
     dist_df = dist_df.reset_index()
     org_df = df.groupby(['Origin', 'lon-origin', 'lat-origin'])['Trips'].sum()
@@ -70,7 +72,7 @@ def create_size_map1(df,style):
     hov_text = []
     for ind in dist_df.index:
         hov_text.append(
-            'Subdivision : {}<br>Incoming Trips : {}<br>Outgoing Trips : {}<br>Inter.Trips : {}<br>Total Trips : {}'.format(
+            'Subdivision : {}<br>Incoming Trips : {}<br>Outgoing Trips : {}<br>Intra Trips : {}<br>Total Trips : {}'.format(
                 dist_df['Destination'][ind], dist_df['orig._Trips'][ind],
                 dist_df['dest._Trips'][ind], dist_df['inter._Trips'][ind], dist_df['Trips_Total'][ind]))
 
