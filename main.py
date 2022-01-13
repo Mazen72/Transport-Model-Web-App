@@ -21,8 +21,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from string import digits
 import Functions
-
-
+import about_us
 
 server = Flask(__name__)
 app = dash.Dash(
@@ -368,7 +367,7 @@ simulation_type_menu=  dcc.Dropdown(
         options=[
             dict(label='Node-Node(Network)', value='Network'), dict(label='Zone-Zone(Flows)', value='Flows')
         ],
-        value='Network' , style=dict(color='black',fontWeight='bold',textAlign='center',
+        value='Flows' , style=dict(color='black',fontWeight='bold',textAlign='center',
                                      width='20vh',backgroundColor='white',border='1px solid black')
     )
 # height='50px' ,
@@ -535,11 +534,7 @@ db_download_pdf=dbc.Col([html.Br(),download_pdf],
                              md=dict(size=10, offset=1), lg=dict(size=3, offset=1), xl=dict(size=3, offset=1)
                              )
 
-
-
-app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(backgroundColor='#2358a6') ),
-                      dbc.Row([db_navigation_header]),html.Br(),
-                      dbc.Row([db_map_div1,db_map_div2]),html.Br(),
+simulations_layout=  html.Div([dbc.Row([db_map_div1,db_map_div2]),html.Br(),
                       dbc.Row([db_dropdowns]),html.Br(),
                       dbc.Row([db_scenario_header]),html.Br(),
                       dbc.Row([db_navigation_header2]),html.Br(),
@@ -552,10 +547,10 @@ app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(background
                       ],   xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
                              md=dict(size=10, offset=1), lg=dict(size=10, offset=1), xl=dict(size=10, offset=1))
                           ]),
-                      dbc.Row(db_download_pdf)
+                      dbc.Row(db_download_pdf)])
 
-
-
+app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(backgroundColor='#2358a6') ),
+                      dbc.Row([db_navigation_header]),html.Br(),html.Div(id='layout')
                       ,dcc.Location(id='url', refresh=True,pathname='/Simulations')
 
 
@@ -563,7 +558,13 @@ app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(background
 
 ])
 
-#  Output({'type': 'existing_input_dynamic','index': MATCH},'value'),
+@app.callback(Output('layout','children'),
+              Input('url','pathname'))
+def change_page(url):
+    if url == '/About_us':
+        return about_us.layout
+    else :
+        return simulations_layout
 
 @app.callback(
     Output({'type': 'existing_input_dynamic','index': MATCH},'value'),
