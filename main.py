@@ -22,6 +22,8 @@ import plotly.graph_objects as go
 from string import digits
 import Functions
 
+
+
 server = Flask(__name__)
 app = dash.Dash(
     __name__,server=server,
@@ -168,24 +170,46 @@ for ind in df.index:
 df['hover']=hov_text
 
 fig=go.Figure()
-
+name_arr = []
 for i in range(len(df)):
     if df['Origin'][i]==df['Destination'][i]:
         continue
 
-    fig.add_trace(go.Scattermapbox(
+    current_dist = df['Destination'][i]
+    current_origin = df['Origin'][i]
+    trips = df['Trips'][i]
+    trips_reversed = df[(df['Origin'] == current_dist) & (df['Destination'] == current_origin)]['Trips'].values[0]
+    total_trips = trips + trips_reversed
+
+
+    if total_trips > 15000:
+        color = 'red'
+        name = '> 15000 Trips'
+
+    elif total_trips <= 15000:
+        color = 'black'
+        name = '<= 15000 Trips'
+
+    legend = True
+    if name in name_arr:
+        legend = False
+    else:
+        legend = True
+
+    fig.add_trace(go.Scattermapbox(name=name,showlegend=legend,
     lon=[ df['lon-origin'][i],df['lon-dist'][i]],
     lat=[df['lat-origin'][i], df['lat-dist'][i]  ],
-    mode='markers+lines',
-    marker={'color': 'blue','size':10,'allowoverlap':True},
-    unselected={'marker': {'opacity': 1}},
-    selected={'marker': {'opacity': 0.5, 'size': 15}},
+    mode='lines',
+    marker={'color': color,'size':10,'allowoverlap':True,'opacity':0.1},
+    #unselected={'marker': {'opacity': 1}},
+   # selected={'marker': {'opacity': 0.5, 'size': 15}},
     hoverinfo='text',
     hovertext=['Subdivision : {}<br>Population : {}'.format(df['Origin'][i],df['OriPop19'][i]),
                'Subdivision : {}<br>Population : {}'.format(df['Destination'][i],df['OriPop19'][i])],
     customdata=[df['Origin'][i],df['Destination'][i]]
 )
     )
+    name_arr.append(name)
 
 
 
@@ -196,15 +220,18 @@ fig.update_layout(
             hovermode='closest',
             hoverdistance=2,
             mapbox=dict(
-                bearing=25,
+          #      bearing=25,
                 style='light',
                 center=dict(
                     lon=10.7347673396536,
                     lat=59.8992367
                 ),
-                pitch=40,
+             #   pitch=40,
                 zoom=10
-            ),showlegend= False ,margin = dict(l = 0, r = 0, t = 30, b = 0)
+            ) ,margin = dict(l = 0, r = 0, t = 30, b = 0), hoverlabel=dict(
+        bgcolor="white",
+        font_size=16,
+        font_family="Rockwell")
         )
 fig.update_layout(mapbox_style="open-street-map")
 
@@ -215,13 +242,13 @@ fig2.update_layout(
             hovermode='closest',
             hoverdistance=2,
             mapbox=dict(
-                bearing=25,
+            #    bearing=25,
                 style='light',
                 center=dict(
                     lon=10.7347673396536,
                     lat=59.8992367
                 ),
-                pitch=40,
+            #    pitch=40,
                 zoom=10
             ),margin = dict(l = 0, r = 0, t = 30, b = 0)
         )
@@ -233,9 +260,9 @@ map_type=dbc.RadioItems(
     options=[
         {"label": "Line Map", "value": 'line_map'},
         {"label": "Size Map", "value": 'size_map'},
-
+        {"label": "Folium Map", "value": 'folium_map'}
     ],
-    value='line_map',
+    value='folium_map',
     id="map_type", style=dict(fontSize='1.5vh',marginLeft='0.5vh')
 )
 
@@ -250,9 +277,10 @@ map_header2=html.Div(html.H1('Simulated Transport Scenario',
                            style=dict(fontSize=header_font_size,fontWeight='bold',color='black')) ,style=dict(display='inline-block'))
 
 map_div1=html.Div([
-            dcc.Graph(id='map1', config={'displayModeBar': True, 'scrollZoom': True,'displaylogo': False},
-                style={'height':'60vh'} ,figure=fig
-            ) ]
+html.Iframe(srcDoc = open('map.html', 'r').read()
+           ,style=dict(width='75vh',height='60vh')
+            )
+             ],id='map1_div'
         )
 
 map_style_menu=  dcc.Dropdown(
@@ -263,7 +291,7 @@ map_style_menu=  dcc.Dropdown(
             dict(label='stamen-toner', value='stamen-toner'), dict(label='stamen-watercolor', value='stamen-watercolor')
         ],
         value='open-street-map' , style=dict(color='black',fontWeight='bold',textAlign='center'
-                                 ,width='20vh',backgroundColor='skyblue',border='1px solid black')
+                                 ,width='20vh',backgroundColor='white',border='1px solid black')
     )
 
 map_style_menu_div= html.Div([map_style_menu],
@@ -273,10 +301,10 @@ map_style_menu_div= html.Div([map_style_menu],
 
 db_map_div1=dbc.Col([ map_header1,map_style_menu_div,map_div1] ,
         xs=dict(size=10,offset=1), sm=dict(size=10,offset=1),
-        md=dict(size=8,offset=0), lg=dict(size=5,offset=0), xl=dict(size=5,offset=0))
+        md=dict(size=8,offset=1), lg=dict(size=5,offset=1), xl=dict(size=5,offset=1))
 
 map_div2=html.Div([
-            dcc.Graph(id='map2', config={'displayModeBar': True, 'scrollZoom': True,'displaylogo': False},
+            dcc.Graph(id='map2', config={'displayModeBar': False, 'scrollZoom': True,'displaylogo': False},
                 style={'height':'60vh'} ,figure=fig2
             ) ]
         )
@@ -289,7 +317,7 @@ map_style_menu2=  dcc.Dropdown(
             dict(label='stamen-toner', value='stamen-toner'), dict(label='stamen-watercolor', value='stamen-watercolor')
         ],
         value='open-street-map' , style=dict(color='black',fontWeight='bold',textAlign='center'
-                                 ,width='20vh',backgroundColor='skyblue',border='1px solid black')
+                                 ,width='20vh',backgroundColor='white',border='1px solid black')
     )
 
 map_style_menu_div2= html.Div([map_style_menu2],
@@ -341,14 +369,14 @@ simulation_type_menu=  dcc.Dropdown(
             dict(label='Node-Node(Network)', value='Network'), dict(label='Zone-Zone(Flows)', value='Flows')
         ],
         value='Network' , style=dict(color='black',fontWeight='bold',textAlign='center',
-                                     width='20vh',backgroundColor='skyblue',border='1px solid black')
+                                     width='20vh',backgroundColor='white',border='1px solid black')
     )
 # height='50px' ,
 # width='12%', marginLeft='1520px' marginTop='-400px' fontSize=26
 #display='inline-block',  border='2px solid #082255',
 simulation_type_menu_div= html.Div([simulation_type_menu],
                           style=dict(fontSize=text_font_size,
-                                      marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
+                                      marginLeft='1vh',marginBottom='-1.5vh',display='inline-block'))
 
 #db_simulation_type_menu=dbc.Col([simulation_type_text,simulation_type_menu_div,html.Br(),html.Br()],
                              #xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
@@ -366,12 +394,12 @@ model_type_menu=  dcc.Dropdown(
             dict(label='Gravity Model(SIM)', value='SIM'), dict(label='Machine Learning(AI)', value='AI')
         ],
         value='SIM' , style=dict(color='black',fontWeight='bold',textAlign='center'
-                                 ,width='20vh',backgroundColor='skyblue',border='1px solid black')
+                                 ,width='20vh',backgroundColor='white',border='1px solid black')
     )
 #display='inline-block',border='2px solid #082255',
 model_type_menu_div= html.Div([model_type_menu],
                           style=dict( fontSize=text_font_size,
-                                      marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
+                                      marginLeft='1vh',marginBottom='-1.5vh',display='inline-block'))
 
 #db_model_type_menu=dbc.Col([model_type_text,model_type_menu_div,html.Br(),html.Br()],
                            #  xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
@@ -391,18 +419,23 @@ city_menu=  dcc.Dropdown(
             dict(label='Urban Districts', value='Urban'), dict(label='Grunnkrets', value='Grunnkrets')
         ],
         value='Urban' , style=dict(color='black',fontWeight='bold',textAlign='center',
-                                   width='15vh',backgroundColor='skyblue',border='1px solid black')
+                                   width='15vh',backgroundColor='white',border='1px solid black')
     )
 #display='inline-block',border='2px solid #082255'
 city_menu_div= html.Div([city_menu],
                           style=dict( fontSize=text_font_size,
-                                      marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
+                                      marginLeft='1vh',marginBottom='-1.5vh',display='inline-block'))
+ok_button = html.Div([dbc.Button("OK", color="primary", size='sm', n_clicks=0,
+                                 id='ok_button',
+                                 style=dict(fontSize='1.8vh')
+                                 )], style=dict(display='inline-block', marginLeft='2vh'))
 
 db_dropdowns=dbc.Col([simulation_type_text,simulation_type_menu_div,model_type_text,model_type_menu_div,
-                      city_text,city_menu_div],
+                      city_text,city_menu_div,ok_button],
                              xs=dict(size=7, offset=3), sm=dict(size=7, offset=3),
                              md=dict(size=11, offset=1), lg=dict(size=11, offset=1), xl=dict(size=11, offset=1)
                              )
+
 
 
 scenario_header=html.H1('Oslo City Transport Simulation',
@@ -450,12 +483,17 @@ subdivision_text=html.Div(html.H1('Select the Subdivision: ',
 #display='inline-block',border='2px solid #082255'
 
 
-multiple_param=dbc.Button("Add Parameter(+)", color="primary", size='lg', n_clicks=0,id="multiple_param"
+multiple_param=html.Div([dbc.Button("Add Parameter(+)", color="primary", size='lg', n_clicks=0,id="multiple_param"
                             ,style=dict(fontSize=text_font_size,width='20vh')
-                            )
-db_multiple_param=dbc.Col([html.Br(),multiple_param],
+                            ) ],style=dict(display='inline-block'))
+
+remove_param=html.Div([dbc.Button("Remove Parameter(-)", color="primary", size='lg', n_clicks=0,id="remove_param"
+                            ,style=dict(fontSize=text_font_size,width='20vh')
+                            )],style=dict(display='inline-block',marginLeft='2vh'))
+
+db_multiple_param=dbc.Col([html.Br(),multiple_param,remove_param],
                              xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
-                             md=dict(size=10, offset=1), lg=dict(size=2, offset=0), xl=dict(size=2, offset=0)
+                             md=dict(size=8, offset=1), lg=dict(size=8, offset=0), xl=dict(size=8, offset=0)
                              )
 
 existing_param_text=html.Div(html.H1('Existing 2019 parameter value: ',
@@ -501,7 +539,7 @@ db_download_pdf=dbc.Col([html.Br(),download_pdf],
 
 app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(backgroundColor='#2358a6') ),
                       dbc.Row([db_navigation_header]),html.Br(),
-                      dbc.Row([db_map_type,db_map_div1,db_map_div2]),html.Br(),
+                      dbc.Row([db_map_div1,db_map_div2]),html.Br(),
                       dbc.Row([db_dropdowns]),html.Br(),
                       dbc.Row([db_scenario_header]),html.Br(),
                       dbc.Row([db_navigation_header2]),html.Br(),
@@ -583,17 +621,27 @@ def change_subdivisions(city_subdivision,value):
 
 @app.callback(
     Output('container', 'children'),
-    [Input('multiple_param', 'n_clicks')],
+    [Input('multiple_param', 'n_clicks'),Input('remove_param', 'n_clicks')],
     [State('container', 'children'),State('city_dropdown','value')]
+    ,prevent_initial_call=True
 )
-def add_parameter(n_clicks,container_content,city_subdivision):
-    subdivisions=[]
-    if city_subdivision=='Urban':
-        subdivisions=Urban_Districts
-    elif city_subdivision== 'Grunnkrets':
-        subdivisions = Grunnkrets
+def add_parameter(n_clicks,n_clicks2,container_content,city_subdivision):
+    ctx = dash.callback_context
+    if ctx.triggered:
+        input_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
-    parameter_menu = dcc.Dropdown(
+        if input_id =='remove_param':
+            container_content.pop()
+            return container_content
+
+        elif input_id == 'multiple_param':
+            subdivisions=[]
+            if city_subdivision=='Urban':
+                subdivisions=Urban_Districts
+            elif city_subdivision== 'Grunnkrets':
+                subdivisions = Grunnkrets
+
+            parameter_menu = dcc.Dropdown(
         id={'type': 'parameter_menu','index': n_clicks},
         options=[
             dict(label='Orig. Population', value='Population'),
@@ -603,13 +651,13 @@ def add_parameter(n_clicks,container_content,city_subdivision):
 
         ],
         value='Population', style=dict(color='black', fontWeight='bold', textAlign='center',
-                                       width='20vh', backgroundColor='skyblue', border='1px solid black')
+                                       width='20vh', backgroundColor='white', border='1px solid black')
     )
 
-    scenario_selection_menu_div = html.Div([parameter_menu],style=dict(fontSize=text_font_size,marginLeft='1vh',
-                                                                       marginBottom='-2vh',display='inline-block'))
+            scenario_selection_menu_div = html.Div([parameter_menu],style=dict(fontSize=text_font_size,marginLeft='1vh',
+                                                                       marginBottom='-1.5vh',display='inline-block'))
 
-    subdivision_menu = dcc.Dropdown(
+            subdivision_menu = dcc.Dropdown(
         id={
             'type': 'subdivisions_dynamic_menu',
             'index': n_clicks
@@ -617,77 +665,86 @@ def add_parameter(n_clicks,container_content,city_subdivision):
         options=[{'label': division, 'value': division} for division in subdivisions
                  ],
         value=subdivisions[0], style=dict(color='black', fontWeight='bold', textAlign='center',
-                                             width='17vh', backgroundColor='skyblue', border='1px solid black')
+                                             width='17vh', backgroundColor='white', border='1px solid black')
     )
 
-    subdivision_menu_div = html.Div([subdivision_menu],style=dict(fontSize=text_font_size,marginLeft='1vh',
-                                                                  marginBottom='-2vh',display='inline-block'))
+            subdivision_menu_div = html.Div([subdivision_menu],style=dict(fontSize=text_font_size,marginLeft='1vh',
+                                                                  marginBottom='-1.5vh',display='inline-block'))
 
-    ok_button = html.Div([dbc.Button("OK", color="primary", size='sm', n_clicks=0,
+            ok_button = html.Div([dbc.Button("OK", color="primary", size='sm', n_clicks=0,
                                       id={'type': 'ok_button_dynamic', 'index': n_clicks},
                                       style=dict(fontSize='1.8vh')
                                      )], style=dict(display='inline-block',marginLeft='2vh'))
 
-    db_menus = dbc.Col([scenario_selection_text,scenario_selection_menu_div,
+            db_menus = dbc.Col([scenario_selection_text,scenario_selection_menu_div,
                         subdivision_text, subdivision_menu_div,ok_button ,html.Br()],
                                   xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
                                   md=dict(size=10, offset=0), lg=dict(size=10, offset=0), xl=dict(size=10, offset=0)
                                   )
 
-    existing_input = dbc.Input(id={'type': 'existing_input_dynamic','index': n_clicks},
+            existing_input = dbc.Input(id={'type': 'existing_input_dynamic','index': n_clicks},
                               placeholder='Enter Value', n_submit=0,
                               type='number', size="md", autocomplete='off',
                               style=dict(width='15vh', border='1px solid black')
                                      )
 #value=subdivisions[0].split()[0],
-    existing_param_input_div = html.Div([existing_input],
+            existing_param_input_div = html.Div([existing_input],
                                         style=dict(fontSize='1.7vh', marginLeft='1vh', marginBottom='-2vh',display='inline-block'))
 
 
-    revised_input=dbc.Input(id={'type': 'revised_input_dynamic','index': n_clicks},
+            revised_input=dbc.Input(id={'type': 'revised_input_dynamic','index': n_clicks},
                          placeholder='Enter Value', n_submit=0,
                          type='number', size="md",autocomplete='off',
                          style=dict(width='15vh',border='1px solid black'))
 
-    revised_param_input_div =html.Div([revised_input],style=dict(fontSize='1.7vh',marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
+            revised_param_input_div =html.Div([revised_input],style=dict(fontSize='1.7vh',marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
 
 
 
-    db_inputs = dbc.Col([existing_param_text,existing_param_input_div,revised_param_text,revised_param_input_div,
+            db_inputs = dbc.Col([existing_param_text,existing_param_input_div,revised_param_text,revised_param_input_div,
                          variation_text , html.Br(), html.Br()],
                            xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
                            md=dict(size=10, offset=0), lg=dict(size=11, offset=0), xl=dict(size=11, offset=0),
                            style=dict()
                            )
 
-    new_div=html.Div([html.Br(),dbc.Row([db_menus]),html.Br(),dbc.Row([db_inputs])])
+            new_div=html.Div([html.Br(),dbc.Row([db_menus]),html.Br(),dbc.Row([db_inputs])])
 
-    container_content.append(new_div)
+            container_content.append(new_div)
 
-    return container_content
+            return container_content
 
 
 #map_style_dropdown
-@app.callback(Output('map1', 'figure'),
-             [Input('map_style_dropdown', 'value'),Input('map_type', 'value')], # this triggers the event
-             [State('map1', 'figure')]
-              ,prevent_initial_call=True)
-def update_map1(style,type,fig):
+@app.callback(Output('map1_div', 'children'),
+             [Input('ok_button', 'n_clicks')],State('sim_dropdown','value')
+        )
+def update_map1(clicks,type):
     df = pd.read_csv('Params.csv')
-    ctx = dash.callback_context
-    if ctx.triggered:
-        input_id = ctx.triggered[0]['prop_id'].split('.')[0]
-        if input_id == 'map_style_dropdown':
-            fig['layout']['mapbox']['style'] = style
-            return fig
-
-        elif input_id== 'map_type':
-            if type == 'line_map':
-                return Functions.create_line_map1(df,fig['layout']['mapbox']['style'])
-            elif type == 'size_map':
-                return Functions.create_size_map1(df,fig['layout']['mapbox']['style'])
+  #  ctx = dash.callback_context
+ #   if ctx.triggered:
+#        input_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
 
+    if type == 'Flows':
+
+        return dcc.Graph(id='map1', config={'displayModeBar': True, 'scrollZoom': True, 'displaylogo': False},
+              style={'height': '60vh'}, figure=Functions.create_combined_map(df)
+              )
+
+
+    elif type == 'Network':
+        return html.Iframe(srcDoc = open('map.html', 'r').read()
+           ,style=dict(width='75vh',height='60vh')
+            )
+
+@app.callback(Output('map1', 'figure'),
+             [Input('map_style_dropdown', 'value')], # this triggers the event
+             [State('map1', 'figure')]
+        )
+def map1_style(style,fig):
+    fig['layout']['mapbox']['style'] = style
+    return fig
 
 @app.callback(Output('map2', 'figure'),
              [Input('map_style_dropdown2', 'value')], # this triggers the event
@@ -698,7 +755,11 @@ def update_map2_style(style,fig):
     return fig
 
 
-
-
+html.Iframe(srcDoc = open('map.html', 'r').read()
+           ,style=dict(width='75vh',height='60vh')
+            )
+dcc.Graph(id='map1', config={'displayModeBar': True, 'scrollZoom': True, 'displaylogo': False},
+              style={'height': '60vh'}, figure=fig
+              )
 if __name__ == '__main__':
     app.run_server(port=8700,debug=True)
