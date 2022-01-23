@@ -22,7 +22,13 @@ import plotly.graph_objects as go
 from string import digits
 import Functions
 import about_us
-
+import requests
+import json
+from ibm_watson_machine_learning import APIClient
+import  shapely
+import folium
+import shapefile
+import geopandas as gpd
 server = Flask(__name__)
 app = dash.Dash(
     __name__,server=server,
@@ -131,6 +137,31 @@ Grunnkrets = ['3012401 Tøyen Rode 1', '3012408 Tøyen Rode 8', '3012409 Tøyen 
  '3015212 Mosekollen Øst', '3011709 Bjølsen Rode 9', '3014117 Ymers Vei',
 '3014401 Frysjå', '3014402 Kjelsås', '3014403 Grefsenplatået', '3014405 Lillo Terrasse'
               ]
+
+
+
+#dff=pd.read_csv('Params.csv')
+#dff['color']='blue'
+#dff.to_csv('Params.csv')
+#df=dff[['Unnamed: 0','Trips',"OrigCode","DestCode","Origin","Destination",
+                            #                      "OriPop19","DestEmp19","Ourban","Durban","Inc19_x","Inc19_y","Dist"]]
+
+#divs=['Gamle Oslo','Sagene Oslo']
+#df['color']='blue'
+#indics=df[ df['Destination'].isin(divs)]['color'].index
+#df['color'].loc[indics]='red'
+#df.to_csv('df.csv')
+#df.to_csv('df.csv')
+#print(df[df['Origin']!=df['Destination']])
+#filt_df = df[(df['Origin'] == 'Gamle Oslo') | (df['Destination'] == 'Gamle Oslo') ]
+#print(filt_df)
+#df.to_csv('dff.csv')
+input_values = []
+
+#print(filt_df['OriPop19'])
+#print(list(filt_df.iloc[17].values))
+
+
 
 
 #text=14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))
@@ -249,7 +280,7 @@ fig2.update_layout(
                 ),
             #    pitch=40,
                 zoom=10
-            ),margin = dict(l = 0, r = 0, t = 30, b = 0)
+            ),margin = dict(l = 0, r = 0, t = 0, b = 0)
         )
 fig2.update_layout(mapbox_style="open-street-map")
 #open-street-map
@@ -305,7 +336,7 @@ db_map_div1=dbc.Col([ map_header1,map_style_menu_div,map_div1] ,
 map_div2=html.Div([
             dcc.Graph(id='map2', config={'displayModeBar': False, 'scrollZoom': True,'displaylogo': False},
                 style={'height':'60vh'} ,figure=fig2
-            ) ]
+            ) ] ,id='map2_div'
         )
 
 map_style_menu2=  dcc.Dropdown(
@@ -448,7 +479,7 @@ db_scenario_header=dbc.Col([scenario_header],
 
 navigation_header2=dbc.Nav(
     [
-        dbc.NavItem(dbc.NavLink("Scenario Selection", active='exact', href="/Simulations",id='Scenario',
+        dbc.NavItem(dbc.NavLink("Scenario Selection", active='exact', href="/Scenario",id='Scenario',
                                 style=dict(fontSize=navbar_font_size))),
         dbc.NavItem(dbc.NavLink("Infographics", href="/Infographics",active='exact',id='Infographics',
                                 style=dict(fontSize=navbar_font_size))),
@@ -505,25 +536,25 @@ revised_param_text=html.Div(html.H1('Revised Parameter Value For Simulation: ',
                            style=dict(display='inline-block',marginLeft='2vh'))
 
 
-variation_text=html.Div(html.H1('+3.28% variation.. ',
-                           style=dict(fontSize=text_font_size,fontWeight='bold',color='black',marginTop='1vh')),
-                           style=dict(display='inline-block',marginLeft='2vh'))
-
 display_button=html.Div([ dbc.Button("Display", color="primary", size='lg', n_clicks=0,id="display_button"
                             ,style=dict(fontSize=text_font_size)
                             )  ],style=dict(display='inline-block'))
 
 analyze_button=html.Div([dbc.Button("Analyze", color="primary", size='lg', n_clicks=0,id="analyze_button"
                             ,style=dict(fontSize=text_font_size)
-                            )],style=dict(display='inline-block',marginLeft='2vh'))
+                            )],style=dict(display='inline-block',marginLeft=''))
 
 reset_map_button=html.Div([dbc.Button("Reset Map", color="primary", size='lg', n_clicks=0,id="reset_map_button"
                             ,style=dict(fontSize=text_font_size)
                             ) ],style=dict(display='inline-block',marginLeft='2vh'))
 
-db_3_buttons=dbc.Col([html.Br(),display_button,analyze_button,reset_map_button],
+db_analyze_button=dbc.Col([html.Br(),analyze_button],
                              xs=dict(size=12, offset=0), sm=dict(size=12, offset=0),
                              md=dict(size=10, offset=1), lg=dict(size=6, offset=0), xl=dict(size=6, offset=0)
+                             )
+db_2_buttons=dbc.Col([html.Br(),display_button,reset_map_button],
+                             xs=dict(size=12, offset=0), sm=dict(size=12, offset=0),
+                             md=dict(size=10, offset=1), lg=dict(size=6, offset=1), xl=dict(size=6, offset=1)
                              )
 
 download_pdf=dbc.Button("Generate PDF Output", color="primary", size='lg', n_clicks=0,id="download_pdf"
@@ -534,25 +565,30 @@ db_download_pdf=dbc.Col([html.Br(),download_pdf],
                              md=dict(size=10, offset=1), lg=dict(size=3, offset=1), xl=dict(size=3, offset=1)
                              )
 
+results_msg=html.Div([''],id='results_msg',style=dict(fontSize='1.8vh',color='#1e90ff',fontWeight='bold') )
+
 simulations_layout=  html.Div([dbc.Row([db_map_div1,db_map_div2]),html.Br(),
                       dbc.Row([db_dropdowns]),html.Br(),
                       dbc.Row([db_scenario_header]),html.Br(),
                       dbc.Row([db_navigation_header2]),html.Br(),
-                      dbc.Row([dbc.Col([
+                      dbc.Row([dbc.Col([html.Div(
                       dbc.Container([dbc.Row(db_multiple_param),html.Div([],id='container'),
-                                     dbc.Row(db_3_buttons)],
+                                     dbc.Row(db_analyze_button),html.Br(),results_msg],
                                     style=dict(border='2px solid black',maxHeight='35vh',overflow='scroll'),fluid=True
-                      )
+                      ),id='container_content' )
 
                       ],   xs=dict(size=10, offset=1), sm=dict(size=10, offset=1),
                              md=dict(size=10, offset=1), lg=dict(size=10, offset=1), xl=dict(size=10, offset=1))
                           ]),
+                      dbc.Row(db_2_buttons),
                       dbc.Row(db_download_pdf)])
 
 app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(backgroundColor='#2358a6') ),
                       dbc.Row([db_navigation_header]),html.Br(),html.Div(id='layout')
-                      ,dcc.Location(id='url', refresh=True,pathname='/Simulations')
-
+                      ,dcc.Location(id='url', refresh=True,pathname='/Simulations'),dcc.Store(id='trips_df'),
+                        dcc.Store(id='simulated_trips',data=pd.DataFrame().to_dict('records')),
+                      dcc.Store(id='parametrs_info', data=pd.DataFrame().to_dict('records')),
+                      dcc.Store(id='folium_df', data=pd.DataFrame().to_dict('records'))
 
 
 
@@ -563,9 +599,225 @@ app.layout=html.Div([ dbc.Row([db_logo_img,db_header_text],style=dict(background
 def change_page(url):
     if url == '/About_us':
         return about_us.layout
-    else :
+
+    elif url == '/Simulations':
         return simulations_layout
 
+    else:
+        return dash.no_update
+
+@app.callback(Output('container_content','children'),
+              Input('url','pathname')  ,[State('trips_df','data'),State('parametrs_info','data')],
+              prevent_initial_call=True)
+def change_content(url,trips,parameters):
+    trips_df=pd.DataFrame(trips)
+    parameters_df=pd.DataFrame(parameters)
+    if url == '/Analysis':
+        table1 = html.Div([dash_table.DataTable(
+            columns=[
+                {
+                    'name': str(x),'id': str(x),'deletable': False,
+                } for x in parameters_df.columns
+            ], id='table2', page_size=20,data=parameters
+            , style_cell=dict(textAlign='center', border='2px solid black'
+                              , backgroundColor='white', color='black', fontSize='1.8vh', fontWeight='bold'),
+            style_header=dict(backgroundColor='#26abff',
+                              fontWeight='bold', border='1px solid black', fontSize='2vh'),
+            editable=False,row_deletable=False,filter_action="native",sort_action="native",
+            sort_mode="single",page_action='native',  style_table={'overflowX': 'auto'}
+            # 'overflowY': 'auto',
+        )],id='table_div2')
+
+        table2 = html.Div([dash_table.DataTable(
+            columns=[
+                {
+                    'name': str(x),'id': str(x),'deletable': False,
+                } for x in trips_df.columns
+            ], id='table', page_size=20,data=trips
+            , style_cell=dict(textAlign='center', border='2px solid black'
+                              , backgroundColor='white', color='black', fontSize='1.8vh', fontWeight='bold'),
+            style_header=dict(backgroundColor='#26abff',
+                              fontWeight='bold', border='1px solid black', fontSize='2vh'),
+            editable=False,row_deletable=False,filter_action="native",sort_action="native",
+            sort_mode="single",page_action='native',  style_table={'overflowX': 'auto'},
+            style_data_conditional = [{'if': { 'filter_query': '{Simulated_Trips} != {Trips}','column_id': 'Simulated_Trips'},
+                                       'backgroundColor': 'skyblue'}]
+            # 'overflowY': 'auto',
+        )],id='table_div')
+        return dbc.Container([table1,html.Br(),table2],
+                              style=dict(border='2px solid black',maxHeight='35vh',overflow='scroll'),fluid=True
+                      )
+    elif url == '/Scenario':
+        return dbc.Container([dbc.Row(db_multiple_param),html.Div([],id='container'),
+                              dbc.Row(db_analyze_button),html.Br(),results_msg],
+                              style=dict(border='2px solid black',maxHeight='35vh',overflow='scroll'),fluid=True
+                      )
+
+    else:
+        return dash.no_update
+
+
+@app.callback([Output('results_msg','children'),Output('trips_df','data'),Output('parametrs_info','data'),Output('folium_df','data')],
+              Input('analyze_button','n_clicks'),
+              [State({'type': 'subdivisions_dynamic_menu', 'index': ALL}, 'value'),
+               State({'type': 'parameter_menu', 'index': ALL}, 'value'),
+               State({'type': 'existing_input_dynamic','index': ALL}, 'value'),
+               State({'type': 'revised_input_dynamic','index': ALL}, 'value'),
+               State({'type': 'dynamic_variation_text','index': ALL},'children')
+               ]
+              ,prevent_initial_call=True)
+def analyze(clicks,subdivision,parameter,existing_input,revised_input,variation):
+    ctx = dash.callback_context
+
+
+    remove_digits = str.maketrans('', '', digits)
+    i=0
+    for subdiv in subdivision:
+        subdivision[i]=subdivision[i].translate(remove_digits)
+        if 'Oslo' not in subdivision[i]:
+            subdivision[i]=subdivision[i][1:] + ' ' + 'Oslo'
+        else:
+            subdivision[i] = subdivision[i][1:]
+        i+=1
+
+    # Population,Employment,Income,Urbanisation
+    input_values = []
+    indices=[]
+    final_df=pd.DataFrame()
+    dff = pd.read_csv('Params.csv')
+    print('subdivs',subdivision)
+    for param, division , mod_input in zip(parameter, subdivision,revised_input):
+
+        filt_df = dff[['Unnamed: 0', "OrigCode", "DestCode", "Origin", "Destination",
+                       "OriPop19", "DestEmp19", "Ourban", "Durban", "Inc19_x", "Inc19_y", "Dist"]]
+        trips_df=dff[['OrigCode','DestCode',"Origin", "Destination",'Trips']]
+        if param == 'Population':
+            filt_df=filt_df[filt_df['Origin']==division]
+            trips_df=trips_df[trips_df['Origin']==division]
+            for index, row in filt_df.iterrows():
+                if index in indices:
+                    continue
+                row['OriPop19'] = float(mod_input)
+                input_values.append(list(row.values))
+                indices.append(index)
+
+        elif param=='Employment':
+            filt_df=filt_df[filt_df['Destination']==division]
+            trips_df=trips_df[trips_df['Destination']==division]
+            for index, row in filt_df.iterrows():
+                if index in indices:
+                    continue
+                row['DestEmp19'] = float(mod_input)
+                input_values.append(list(row.values))
+                indices.append(index)
+
+        elif param=='Income':
+            filt_df= filt_df[(filt_df['Origin'] == division) | (filt_df['Destination'] == division) ]
+            trips_df=trips_df[(trips_df['Origin'] == division) | (trips_df['Destination'] == division) ]
+            for index, row in filt_df.iterrows():
+                if index in indices:
+                    continue
+                if row['Origin']==division and row['Destination']==division:
+                    row['Inc19_x'] = float(mod_input)
+                    row['Inc19_y'] = float(mod_input)
+
+                elif row['Origin']==division:
+                    row['Inc19_x'] = float(mod_input)
+
+                elif row['Destination']==division:
+                    row['Inc19_y'] = float(mod_input)
+
+                input_values.append(list(row.values))
+                indices.append(index)
+
+        elif param == 'Urbanisation':
+            filt_df= filt_df[(filt_df['Origin'] == division) | (filt_df['Destination'] == division) ]
+            trips_df=trips_df[(trips_df['Origin'] == division) | (trips_df['Destination'] == division) ]
+            for index, row in filt_df.iterrows():
+                if index in indices:
+                    continue
+                if row['Origin'] == division and row['Destination'] == division:
+                    row['Ourban'] = float(mod_input)
+                    row['Durban'] = float(mod_input)
+
+                elif row['Origin'] == division:
+                    row['Ourban'] = float(mod_input)
+
+                elif row['Destination'] == division:
+                    row['Durban'] = float(mod_input)
+
+                input_values.append(list(row.values))
+                indices.append(index)
+
+
+        else:
+            return (dash.no_update,dash.no_update,dash.no_update,dash.no_update)
+
+        final_df = final_df.append(trips_df,ignore_index=False)
+    if final_df.empty:
+        return (dash.no_update, dash.no_update,dash.no_update,dash.no_update)
+
+    final_df = final_df[~final_df.index.duplicated(keep='first')]
+
+    print('input_values',input_values)
+    print(len(input_values))
+
+    #return (dash.no_update, dash.no_update,dash.no_update,dash.no_update)
+  #  wml_credentials = {
+     #  "url": "https://eu-de.ml.cloud.ibm.com",
+     #  "apikey": "5iLReM2ZZVXnVRMaAcSA4rfGnInWte72CgK0PcCLkyKY",
+      #  "instance_id": "v2 Standard instance_id"
+   # }
+   # client = APIClient(wml_credentials)
+   # CP = client.service_instance.get_details()
+    #CUH = CP["entity"]["usage"]["capacity_units"]["current"] / (3600 * 1000)
+    #print(CUH)
+
+    API_KEY = '5iLReM2ZZVXnVRMaAcSA4rfGnInWte72CgK0PcCLkyKY'
+    token_response = requests.post('https://iam.cloud.ibm.com/identity/token',
+                                       data={"apikey": API_KEY, "grant_type": 'urn:ibm:params:oauth:grant-type:apikey'})
+    mltoken = token_response.json()["access_token"]
+    header = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + mltoken}
+
+    payload_scoring = {"input_data": [{"fields": ['Unnamed: 0', "OrigCode", "DestCode", "Origin", "Destination",
+                                                      "OPop", "DEmpl", "Ourban", "Durban", "OInc",
+                                                    "DInc","Distance"],
+                                        "values": input_values
+                                       }]}
+    response_scoring = requests.post(
+           'https://eu-de.ml.cloud.ibm.com/ml/v4/deployments/4584b9a1-1730-46c3-a4fd-efc2eaa73d44/predictions?version=2022-01-20',
+           json=payload_scoring, headers=header)
+    print("Scoring response")
+    print(response_scoring.json())
+    results=response_scoring.json()
+    results=results['predictions'][0]['values']
+    final_results=[]
+    for trip in results:
+        final_results.append(trip[0])
+    final_df['Simulated_Trips']=final_results
+    mod_trips_df=dff[['OrigCode','DestCode',"Origin", "Destination",'Trips']]
+    mod_trips_df['Simulated_Trips']=mod_trips_df['Trips']
+    mod_trips_df.loc[final_df.index]=final_df
+    parameters_data = {'Parameters':parameter , 'SubDivision': subdivision, 'Exisiting_Value': existing_input,
+                       'Modified_Value': revised_input, 'Variation': variation }
+
+    parameters_df = pd.DataFrame(parameters_data)
+    folium_df=mod_trips_df.groupby(['OrigCode','DestCode','Origin','Destination'],sort=True)['Trips','Simulated_Trips'].mean().reset_index()
+
+    return ('Analysis Done',mod_trips_df.to_dict('records'),parameters_df.to_dict('records'),folium_df.to_dict('records'))
+
+@app.callback(
+    Output({'type': 'dynamic_variation_text','index': MATCH},'children'),
+    Input({'type': 'revised_input_dynamic', 'index': MATCH},'value'),
+    [State({'type': 'existing_input_dynamic','index': MATCH}, 'value')]
+,prevent_initial_call=True
+)
+def update_variation(modified_input,existing_input):
+    if modified_input != '' and existing_input != '' :
+        variation=(float(modified_input)-float(existing_input))/float(existing_input)
+        return '{}% variation..'.format(str(round(variation, 2)))
+    else:
+        return dash.no_update
 @app.callback(
     Output({'type': 'existing_input_dynamic','index': MATCH},'value'),
     Input({'type': 'ok_button_dynamic', 'index': MATCH},'n_clicks'),
@@ -645,10 +897,10 @@ def add_parameter(n_clicks,n_clicks2,container_content,city_subdivision):
             parameter_menu = dcc.Dropdown(
         id={'type': 'parameter_menu','index': n_clicks},
         options=[
-            dict(label='Orig. Population', value='Population'),
-            dict(label='Dist. Employment (Jobs)', value='Employment'),
-            dict(label='Income-levels (Orig. and Dist.) ', value='Income'),
-            dict(label='Urbanisation (Orig. and Dist.)', value='Urbanisation')
+            dict(label='Population', value='Population'),
+            dict(label='Employment (Jobs)', value='Employment'),
+            dict(label='Income Levels', value='Income'),
+            dict(label='Urbanisation', value='Urbanisation')
 
         ],
         value='Population', style=dict(color='black', fontWeight='bold', textAlign='center',
@@ -685,7 +937,7 @@ def add_parameter(n_clicks,n_clicks2,container_content,city_subdivision):
 
             existing_input = dbc.Input(id={'type': 'existing_input_dynamic','index': n_clicks},
                               placeholder='Enter Value', n_submit=0,
-                              type='number', size="md", autocomplete='off',
+                              type='number', size="md", autocomplete='off',value='',
                               style=dict(width='15vh', border='1px solid black')
                                      )
 #value=subdivisions[0].split()[0],
@@ -695,12 +947,15 @@ def add_parameter(n_clicks,n_clicks2,container_content,city_subdivision):
 
             revised_input=dbc.Input(id={'type': 'revised_input_dynamic','index': n_clicks},
                          placeholder='Enter Value', n_submit=0,
-                         type='number', size="md",autocomplete='off',
+                         type='number', size="md",autocomplete='off', value='',
                          style=dict(width='15vh',border='1px solid black'))
 
             revised_param_input_div =html.Div([revised_input],style=dict(fontSize='1.7vh',marginLeft='1vh',marginBottom='-2vh',display='inline-block'))
 
-
+            variation_text = html.Div(html.H1('',id={'type': 'dynamic_variation_text','index': n_clicks},
+                                              style=dict(fontSize=text_font_size, fontWeight='bold', color='black',
+                                                         marginTop='1vh')),
+                                      style=dict(display='inline-block', marginLeft='2vh'))
 
             db_inputs = dbc.Col([existing_param_text,existing_param_input_div,revised_param_text,revised_param_input_div,
                          variation_text , html.Br(), html.Br()],
@@ -729,8 +984,8 @@ def update_map1(clicks,type):
 
     if type == 'Flows':
 
-        return dcc.Graph(id='map1', config={'displayModeBar': True, 'scrollZoom': True, 'displaylogo': False},
-              style={'height': '60vh'}, figure=Functions.create_combined_map(df)
+        return dcc.Graph(id='map1', config={'displayModeBar': False, 'scrollZoom': True, 'displaylogo': False},
+              style={'height': '60vh'}, figure=Functions.create_combined_map(df,[])
               )
 
 
@@ -739,6 +994,73 @@ def update_map1(clicks,type):
            ,style=dict(width='75vh',height='60vh')
             )
 
+
+@app.callback(Output('map2_div', 'children'),
+             [Input('display_button', 'n_clicks')],
+              [State('sim_dropdown','value'),State('trips_df','data'),State('folium_df','data'),State('parametrs_info','data')]
+        )
+def update_map2(clicks,type,trips,folium_data,parameters):
+    df = pd.read_csv('Params.csv')
+    trips_df=pd.DataFrame(trips)
+    folium_df=pd.DataFrame(folium_data)
+    if trips_df.empty or folium_df.empty:
+        return dash.no_update
+
+    df['Trips']=trips_df['Simulated_Trips']
+
+    if type == 'Flows':
+        param_df=pd.DataFrame(parameters)
+        divsions=param_df['SubDivision'].to_list()
+        return dcc.Graph(id='map2', config={'displayModeBar': False, 'scrollZoom': True, 'displaylogo': False},
+              style={'height': '60vh'}, figure=Functions.create_combined_map(df,divsions)
+              )
+
+
+    elif type == 'Network':
+        j_file = shapefile.Reader("Roads/Roads.shp").__geo_interface__
+
+        # print(j_file)
+        shp_ = gpd.read_file(r"Roads/Roads.shp")
+        gpkg_ = gpd.read_file(r"UD/OsloUD.shp")
+
+        # removing the 0 from the column bydelsnr to be able to merge
+        gpkg_["bydelsnr"] = gpkg_["bydelsnr"].apply(lambda x: x[1:] if x.startswith("0") else x)
+        # importing the file
+        gpkg_imported = pd.read_csv("gpkg_.csv")
+        # merging the 2 files
+        merged = gpkg_imported.merge(folium_df, how='right', left_on='bydelsnr', right_on='OrigCode')
+        # converting merged DataFrame into GeoDataFrame
+        geometry = merged['geometry'].map(shapely.wkt.loads)  # mapping the geometry
+        merged_geo = gpd.GeoDataFrame(merged, crs=shp_.crs,
+                                      geometry=geometry)  # convert and assign the crs as the shape file
+        res_intersect = merged_geo.overlay(shp_, how='intersection', keep_geom_type=False)
+        m = res_intersect.explore(
+            column="Simulated_Trips",  # make choropleth based on "BoroName" column
+            scheme="Percentiles",  # use mapclassify's natural breaks scheme
+            legend=True,  # show legend
+            k=10,  # use 10 bins
+            legend_kwds=dict(colorbar=True),  # do not use colorbar
+            name="Simulated_Trips",
+            cmap='tab10'  # name of the layer in the map
+        )
+
+        gpkg_.explore(
+            m=m,  # pass the map object
+            color="gray",  # use red color on all points
+            marker_kwds=dict(radius=10, fill=True),  # make marker radius 10px with fill
+            tooltip="bydelsnr",  # show "name" column in the tooltip
+            tooltip_kwds=dict(labels=True),  # do not show column label in the tooltip
+            name="bydelsnr"  # name of the layer in the map
+        )
+        folium.TileLayer('Cartodb dark_matter', control=True).add_to(m)  # use folium to add alternative tiles
+        folium.LayerControl().add_to(m)  # use folium to add layer control
+
+        m.save('sim_map.html')
+        return html.Iframe(srcDoc = open('sim_map.html', 'r').read()
+           ,style=dict(width='75vh',height='60vh')
+            )
+
+
 @app.callback(Output('map1', 'figure'),
              [Input('map_style_dropdown', 'value')], # this triggers the event
              [State('map1', 'figure')]
@@ -746,6 +1068,10 @@ def update_map1(clicks,type):
 def map1_style(style,fig):
     fig['layout']['mapbox']['style'] = style
     return fig
+
+
+
+
 
 @app.callback(Output('map2', 'figure'),
              [Input('map_style_dropdown2', 'value')], # this triggers the event

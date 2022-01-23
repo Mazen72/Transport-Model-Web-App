@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.graph_objects as go
+import numpy as np
 
 def create_line_map1(df):
     hov_text = []
@@ -117,18 +118,23 @@ def create_size_map1(df):
                        clickmode='event+select', hovermode='closest')
     return fig2
 
-def create_combined_map(df):
-
-
+def create_combined_map(df,divisions):
+    lons = []
+    lats = []
+    df2=df[df['Origin']!=df['Destination']]
+    lons = np.empty(3 * len(df2))
+    lons[::3] = df2['lon-origin']
+    lons[1::3] = df2['lon-dist']
+    lons[2::3] = None
+    lats = np.empty(3 * len(df2))
+    lats[::3] = df2['lat-origin']
+    lats[1::3] = df2['lat-dist']
+    lats[2::3] = None
     fig = go.Figure()
 
-    for i in range(len(df)):
-        if df['Origin'][i] == df['Destination'][i]:
-            continue
-
-        fig.add_trace(go.Scattermapbox(
-            lon=[df['lon-origin'][i], df['lon-dist'][i]],
-            lat=[df['lat-origin'][i], df['lat-dist'][i]],
+    fig.add_trace(go.Scattermapbox(
+            lon=lons,
+            lat=lats,
             mode='lines',
             marker={'color': 'rgb(0,0,255)', 'size': 10, 'allowoverlap': True,'opacity':0.1},
            # unselected={'marker': {'opacity': 1}},
@@ -136,7 +142,7 @@ def create_combined_map(df):
             hoverinfo='skip',
          #   hovertext=['Subdivision : {}<br>Population : {}'.format(df['Origin'][i], df['OriPop19'][i]),
               #         'Subdivision : {}<br>Population : {}'.format(df['Destination'][i], df['OriPop19'][i])],
-            customdata=[df['Origin'][i], df['Destination'][i]]
+         #   customdata=[df['Origin'][i], df['Destination'][i]]
         )
         )
 
@@ -154,13 +160,13 @@ def create_combined_map(df):
             ),
           #  pitch=40,
             zoom=10
-        ), showlegend=False, margin=dict(l=0, r=0, t=30, b=0) ,hoverlabel=dict(
+        ), showlegend=False, margin=dict(l=0, r=0, t=0, b=0) ,hoverlabel=dict(
         font_size=16,
         font_family="Rockwell")
     )
     fig.update_layout(mapbox_style='open-street-map')
 
-    dist_df = df.groupby(['Destination', 'lon-dist', 'lat-dist'])['Trips'].sum()
+    dist_df = df.groupby(['Destination', 'lon-dist', 'lat-dist','color'])['Trips'].sum()
     dist_df = dist_df.reset_index()
     org_df = df.groupby(['Origin', 'lon-origin', 'lat-origin'])['Trips'].sum()
     org_df = org_df.reset_index()
@@ -185,10 +191,14 @@ def create_combined_map(df):
 
     dist_df['hover2'] = hov_text
 
+    if divisions != []:
+        indices = dist_df[dist_df['Destination'].isin(divisions)]['color'].index
+        dist_df['color'].loc[indices] = 'darkred'
+
     fig.add_trace(go.Scattermapbox(lat=dist_df['lat-dist'], lon=dist_df['lon-dist'],
                                       marker=dict(
                                           size=dist_df['Trips_Total'] / 500,
-                                          color='rgb(0,0,255)',
+                                          color=dist_df['color'],
                                           sizemode='area',opacity=1
                                       ),
                                       hoverinfo='text', hovertemplate=dist_df['hover2'], customdata=dist_df['hover2']))

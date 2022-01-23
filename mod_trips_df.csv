@@ -1,0 +1,290 @@
+,OrigCode,DestCode,Origin,Destination,Trips,Simulated_Trips
+0,30101.0,30101.0,Gamle Oslo,Gamle Oslo,54156,43396.8
+1,30102.0,30101.0,Grünerløkka Oslo,Gamle Oslo,18715,9313.5
+2,30103.0,30101.0,Sagene Oslo,Gamle Oslo,9690,7025.7
+3,30104.0,30101.0,St. Hanshaugen Oslo,Gamle Oslo,12727,9315.5
+4,30105.0,30101.0,Frogner Oslo,Gamle Oslo,14509,13440.0
+5,30106.0,30101.0,Ullern Oslo,Gamle Oslo,5644,5474.5
+6,30107.0,30101.0,Vestre Aker Oslo,Gamle Oslo,6307,5119.1
+7,30108.0,30101.0,Nordre Aker Oslo,Gamle Oslo,9597,7973.2
+8,30109.0,30101.0,Bjerke Oslo,Gamle Oslo,6242,4001.1
+9,30110.0,30101.0,Grorud Oslo,Gamle Oslo,4085,3027.1
+10,30111.0,30101.0,Stovner Oslo,Gamle Oslo,4175,2636.2
+11,30112.0,30101.0,Alna Oslo,Gamle Oslo,11422,4793.5
+12,30113.0,30101.0,Østensjø Oslo,Gamle Oslo,9918,7123.0
+13,30114.0,30101.0,Nordstrand Oslo,Gamle Oslo,9361,8677.6
+14,30115.0,30101.0,Søndre Nordstrand Oslo,Gamle Oslo,5652,4499.5
+15,30116.0,30101.0,Sentrum Oslo,Gamle Oslo,11109,10830.9
+16,30117.0,30101.0,Marka Oslo,Gamle Oslo,340,378.3
+17,30101.0,30102.0,Gamle Oslo,Grünerløkka Oslo,18469,12636.2
+18,30102.0,30102.0,Grünerløkka Oslo,Grünerløkka Oslo,57167,57167.0
+19,30103.0,30102.0,Sagene Oslo,Grünerløkka Oslo,15379,15379.0
+20,30104.0,30102.0,St. Hanshaugen Oslo,Grünerløkka Oslo,15837,15837.0
+21,30105.0,30102.0,Frogner Oslo,Grünerløkka Oslo,14859,14859.0
+22,30106.0,30102.0,Ullern Oslo,Grünerløkka Oslo,5510,5510.0
+23,30107.0,30102.0,Vestre Aker Oslo,Grünerløkka Oslo,6253,6253.0
+24,30108.0,30102.0,Nordre Aker Oslo,Grünerløkka Oslo,11759,11759.0
+25,30109.0,30102.0,Bjerke Oslo,Grünerløkka Oslo,7476,7476.0
+26,30110.0,30102.0,Grorud Oslo,Grünerløkka Oslo,4055,4055.0
+27,30111.0,30102.0,Stovner Oslo,Grünerløkka Oslo,3744,3744.0
+28,30112.0,30102.0,Alna Oslo,Grünerløkka Oslo,9082,9082.0
+29,30113.0,30102.0,Østensjø Oslo,Grünerløkka Oslo,6616,6616.0
+30,30114.0,30102.0,Nordstrand Oslo,Grünerløkka Oslo,6351,6351.0
+31,30115.0,30102.0,Søndre Nordstrand Oslo,Grünerløkka Oslo,3876,3876.0
+32,30116.0,30102.0,Sentrum Oslo,Grünerløkka Oslo,9569,9569.0
+33,30117.0,30102.0,Marka Oslo,Grünerløkka Oslo,661,661.0
+34,30101.0,30103.0,Gamle Oslo,Sagene Oslo,9668,9656.5
+35,30102.0,30103.0,Grünerløkka Oslo,Sagene Oslo,15488,15488.0
+36,30103.0,30103.0,Sagene Oslo,Sagene Oslo,31938,31938.0
+37,30104.0,30103.0,St. Hanshaugen Oslo,Sagene Oslo,11780,11780.0
+38,30105.0,30103.0,Frogner Oslo,Sagene Oslo,10579,10579.0
+39,30106.0,30103.0,Ullern Oslo,Sagene Oslo,3964,3964.0
+40,30107.0,30103.0,Vestre Aker Oslo,Sagene Oslo,4656,4656.0
+41,30108.0,30103.0,Nordre Aker Oslo,Sagene Oslo,13792,13792.0
+42,30109.0,30103.0,Bjerke Oslo,Sagene Oslo,4685,4685.0
+43,30110.0,30103.0,Grorud Oslo,Sagene Oslo,2352,2352.0
+44,30111.0,30103.0,Stovner Oslo,Sagene Oslo,1803,1803.0
+45,30112.0,30103.0,Alna Oslo,Sagene Oslo,5271,5271.0
+46,30113.0,30103.0,Østensjø Oslo,Sagene Oslo,3809,3809.0
+47,30114.0,30103.0,Nordstrand Oslo,Sagene Oslo,3643,3643.0
+48,30115.0,30103.0,Søndre Nordstrand Oslo,Sagene Oslo,1863,1863.0
+49,30116.0,30103.0,Sentrum Oslo,Sagene Oslo,5475,5475.0
+50,30117.0,30103.0,Marka Oslo,Sagene Oslo,616,616.0
+51,30101.0,30104.0,Gamle Oslo,St. Hanshaugen Oslo,12592,11704.5
+52,30102.0,30104.0,Grünerløkka Oslo,St. Hanshaugen Oslo,15743,15743.0
+53,30103.0,30104.0,Sagene Oslo,St. Hanshaugen Oslo,11580,11580.0
+54,30104.0,30104.0,St. Hanshaugen Oslo,St. Hanshaugen Oslo,35436,35436.0
+55,30105.0,30104.0,Frogner Oslo,St. Hanshaugen Oslo,18712,18712.0
+56,30106.0,30104.0,Ullern Oslo,St. Hanshaugen Oslo,5706,5706.0
+57,30107.0,30104.0,Vestre Aker Oslo,St. Hanshaugen Oslo,7633,7633.0
+58,30108.0,30104.0,Nordre Aker Oslo,St. Hanshaugen Oslo,11762,11762.0
+59,30109.0,30104.0,Bjerke Oslo,St. Hanshaugen Oslo,4267,4267.0
+60,30110.0,30104.0,Grorud Oslo,St. Hanshaugen Oslo,2694,2694.0
+61,30111.0,30104.0,Stovner Oslo,St. Hanshaugen Oslo,2496,2496.0
+62,30112.0,30104.0,Alna Oslo,St. Hanshaugen Oslo,5869,5869.0
+63,30113.0,30104.0,Østensjø Oslo,St. Hanshaugen Oslo,5705,5705.0
+64,30114.0,30104.0,Nordstrand Oslo,St. Hanshaugen Oslo,5962,5962.0
+65,30115.0,30104.0,Søndre Nordstrand Oslo,St. Hanshaugen Oslo,3541,3541.0
+66,30116.0,30104.0,Sentrum Oslo,St. Hanshaugen Oslo,11452,11452.0
+67,30117.0,30104.0,Marka Oslo,St. Hanshaugen Oslo,518,518.0
+68,30101.0,30105.0,Gamle Oslo,Frogner Oslo,14549,13759.1
+69,30102.0,30105.0,Grünerløkka Oslo,Frogner Oslo,14880,14880.0
+70,30103.0,30105.0,Sagene Oslo,Frogner Oslo,10563,10563.0
+71,30104.0,30105.0,St. Hanshaugen Oslo,Frogner Oslo,18561,18561.0
+72,30105.0,30105.0,Frogner Oslo,Frogner Oslo,65838,65838.0
+73,30106.0,30105.0,Ullern Oslo,Frogner Oslo,12633,12633.0
+74,30107.0,30105.0,Vestre Aker Oslo,Frogner Oslo,14686,14686.0
+75,30108.0,30105.0,Nordre Aker Oslo,Frogner Oslo,14255,14255.0
+76,30109.0,30105.0,Bjerke Oslo,Frogner Oslo,5197,5197.0
+77,30110.0,30105.0,Grorud Oslo,Frogner Oslo,3488,3488.0
+78,30111.0,30105.0,Stovner Oslo,Frogner Oslo,3264,3264.0
+79,30112.0,30105.0,Alna Oslo,Frogner Oslo,7587,7587.0
+80,30113.0,30105.0,Østensjø Oslo,Frogner Oslo,6983,6983.0
+81,30114.0,30105.0,Nordstrand Oslo,Frogner Oslo,8715,8715.0
+82,30115.0,30105.0,Søndre Nordstrand Oslo,Frogner Oslo,4421,4421.0
+83,30116.0,30105.0,Sentrum Oslo,Frogner Oslo,13480,13480.0
+84,30117.0,30105.0,Marka Oslo,Frogner Oslo,657,657.0
+85,30101.0,30106.0,Gamle Oslo,Ullern Oslo,5653,7249.0
+86,30102.0,30106.0,Grünerløkka Oslo,Ullern Oslo,5328,5328.0
+87,30103.0,30106.0,Sagene Oslo,Ullern Oslo,4047,4047.0
+88,30104.0,30106.0,St. Hanshaugen Oslo,Ullern Oslo,5378,5378.0
+89,30105.0,30106.0,Frogner Oslo,Ullern Oslo,12645,12645.0
+90,30106.0,30106.0,Ullern Oslo,Ullern Oslo,26358,26358.0
+91,30107.0,30106.0,Vestre Aker Oslo,Ullern Oslo,8634,8634.0
+92,30108.0,30106.0,Nordre Aker Oslo,Ullern Oslo,6102,6102.0
+93,30109.0,30106.0,Bjerke Oslo,Ullern Oslo,2412,2412.0
+94,30110.0,30106.0,Grorud Oslo,Ullern Oslo,1479,1479.0
+95,30111.0,30106.0,Stovner Oslo,Ullern Oslo,1325,1325.0
+96,30112.0,30106.0,Alna Oslo,Ullern Oslo,3485,3485.0
+97,30113.0,30106.0,Østensjø Oslo,Ullern Oslo,3173,3173.0
+98,30114.0,30106.0,Nordstrand Oslo,Ullern Oslo,3656,3656.0
+99,30115.0,30106.0,Søndre Nordstrand Oslo,Ullern Oslo,1808,1808.0
+100,30116.0,30106.0,Sentrum Oslo,Ullern Oslo,3552,3552.0
+101,30117.0,30106.0,Marka Oslo,Ullern Oslo,508,508.0
+102,30101.0,30107.0,Gamle Oslo,Vestre Aker Oslo,6155,6170.8
+103,30102.0,30107.0,Grünerløkka Oslo,Vestre Aker Oslo,6017,6017.0
+104,30103.0,30107.0,Sagene Oslo,Vestre Aker Oslo,4572,4572.0
+105,30104.0,30107.0,St. Hanshaugen Oslo,Vestre Aker Oslo,7374,7374.0
+106,30105.0,30107.0,Frogner Oslo,Vestre Aker Oslo,14795,14795.0
+107,30106.0,30107.0,Ullern Oslo,Vestre Aker Oslo,8621,8621.0
+108,30107.0,30107.0,Vestre Aker Oslo,Vestre Aker Oslo,41169,41169.0
+109,30108.0,30107.0,Nordre Aker Oslo,Vestre Aker Oslo,8739,8739.0
+110,30109.0,30107.0,Bjerke Oslo,Vestre Aker Oslo,2829,2829.0
+111,30110.0,30107.0,Grorud Oslo,Vestre Aker Oslo,1544,1544.0
+112,30111.0,30107.0,Stovner Oslo,Vestre Aker Oslo,1429,1429.0
+113,30112.0,30107.0,Alna Oslo,Vestre Aker Oslo,4345,4345.0
+114,30113.0,30107.0,Østensjø Oslo,Vestre Aker Oslo,3216,3216.0
+115,30114.0,30107.0,Nordstrand Oslo,Vestre Aker Oslo,3632,3632.0
+116,30115.0,30107.0,Søndre Nordstrand Oslo,Vestre Aker Oslo,1905,1905.0
+117,30116.0,30107.0,Sentrum Oslo,Vestre Aker Oslo,4488,4488.0
+118,30117.0,30107.0,Marka Oslo,Vestre Aker Oslo,1278,1278.0
+119,30101.0,30108.0,Gamle Oslo,Nordre Aker Oslo,9544,6969.4
+120,30102.0,30108.0,Grünerløkka Oslo,Nordre Aker Oslo,11666,11666.0
+121,30103.0,30108.0,Sagene Oslo,Nordre Aker Oslo,13830,13830.0
+122,30104.0,30108.0,St. Hanshaugen Oslo,Nordre Aker Oslo,11459,11459.0
+123,30105.0,30108.0,Frogner Oslo,Nordre Aker Oslo,13840,13840.0
+124,30106.0,30108.0,Ullern Oslo,Nordre Aker Oslo,6185,6185.0
+125,30107.0,30108.0,Vestre Aker Oslo,Nordre Aker Oslo,8673,8673.0
+126,30108.0,30108.0,Nordre Aker Oslo,Nordre Aker Oslo,45548,45548.0
+127,30109.0,30108.0,Bjerke Oslo,Nordre Aker Oslo,5961,5961.0
+128,30110.0,30108.0,Grorud Oslo,Nordre Aker Oslo,3430,3430.0
+129,30111.0,30108.0,Stovner Oslo,Nordre Aker Oslo,3161,3161.0
+130,30112.0,30108.0,Alna Oslo,Nordre Aker Oslo,6978,6978.0
+131,30113.0,30108.0,Østensjø Oslo,Nordre Aker Oslo,5873,5873.0
+132,30114.0,30108.0,Nordstrand Oslo,Nordre Aker Oslo,5814,5814.0
+133,30115.0,30108.0,Søndre Nordstrand Oslo,Nordre Aker Oslo,2989,2989.0
+134,30116.0,30108.0,Sentrum Oslo,Nordre Aker Oslo,5524,5524.0
+135,30117.0,30108.0,Marka Oslo,Nordre Aker Oslo,1474,1474.0
+136,30101.0,30109.0,Gamle Oslo,Bjerke Oslo,6256,5677.6
+137,30102.0,30109.0,Grünerløkka Oslo,Bjerke Oslo,7503,7503.0
+138,30103.0,30109.0,Sagene Oslo,Bjerke Oslo,4755,4755.0
+139,30104.0,30109.0,St. Hanshaugen Oslo,Bjerke Oslo,4259,4259.0
+140,30105.0,30109.0,Frogner Oslo,Bjerke Oslo,5101,5101.0
+141,30106.0,30109.0,Ullern Oslo,Bjerke Oslo,2397,2397.0
+142,30107.0,30109.0,Vestre Aker Oslo,Bjerke Oslo,2941,2941.0
+143,30108.0,30109.0,Nordre Aker Oslo,Bjerke Oslo,5834,5834.0
+144,30109.0,30109.0,Bjerke Oslo,Bjerke Oslo,22174,22174.0
+145,30110.0,30109.0,Grorud Oslo,Bjerke Oslo,3784,3784.0
+146,30111.0,30109.0,Stovner Oslo,Bjerke Oslo,3466,3466.0
+147,30112.0,30109.0,Alna Oslo,Bjerke Oslo,9254,9254.0
+148,30113.0,30109.0,Østensjø Oslo,Bjerke Oslo,4172,4172.0
+149,30114.0,30109.0,Nordstrand Oslo,Bjerke Oslo,3368,3368.0
+150,30115.0,30109.0,Søndre Nordstrand Oslo,Bjerke Oslo,2097,2097.0
+151,30116.0,30109.0,Sentrum Oslo,Bjerke Oslo,2874,2874.0
+152,30117.0,30109.0,Marka Oslo,Bjerke Oslo,421,421.0
+153,30101.0,30110.0,Gamle Oslo,Grorud Oslo,4021,3605.1
+154,30102.0,30110.0,Grünerløkka Oslo,Grorud Oslo,3918,3918.0
+155,30103.0,30110.0,Sagene Oslo,Grorud Oslo,2484,2484.0
+156,30104.0,30110.0,St. Hanshaugen Oslo,Grorud Oslo,2641,2641.0
+157,30105.0,30110.0,Frogner Oslo,Grorud Oslo,3352,3352.0
+158,30106.0,30110.0,Ullern Oslo,Grorud Oslo,1431,1431.0
+159,30107.0,30110.0,Vestre Aker Oslo,Grorud Oslo,1491,1491.0
+160,30108.0,30110.0,Nordre Aker Oslo,Grorud Oslo,3396,3396.0
+161,30109.0,30110.0,Bjerke Oslo,Grorud Oslo,3746,3746.0
+162,30110.0,30110.0,Grorud Oslo,Grorud Oslo,15334,15334.0
+163,30111.0,30110.0,Stovner Oslo,Grorud Oslo,4796,4796.0
+164,30112.0,30110.0,Alna Oslo,Grorud Oslo,6432,6432.0
+165,30113.0,30110.0,Østensjø Oslo,Grorud Oslo,2543,2543.0
+166,30114.0,30110.0,Nordstrand Oslo,Grorud Oslo,1861,1861.0
+167,30115.0,30110.0,Søndre Nordstrand Oslo,Grorud Oslo,1293,1293.0
+168,30116.0,30110.0,Sentrum Oslo,Grorud Oslo,2000,2000.0
+169,30117.0,30110.0,Marka Oslo,Grorud Oslo,240,240.0
+170,30101.0,30111.0,Gamle Oslo,Stovner Oslo,4182,2595.3
+171,30102.0,30111.0,Grünerløkka Oslo,Stovner Oslo,3956,3956.0
+172,30103.0,30111.0,Sagene Oslo,Stovner Oslo,1978,1978.0
+173,30104.0,30111.0,St. Hanshaugen Oslo,Stovner Oslo,2443,2443.0
+174,30105.0,30111.0,Frogner Oslo,Stovner Oslo,3225,3225.0
+175,30106.0,30111.0,Ullern Oslo,Stovner Oslo,1367,1367.0
+176,30107.0,30111.0,Vestre Aker Oslo,Stovner Oslo,1421,1421.0
+177,30108.0,30111.0,Nordre Aker Oslo,Stovner Oslo,3027,3027.0
+178,30109.0,30111.0,Bjerke Oslo,Stovner Oslo,3510,3510.0
+179,30110.0,30111.0,Grorud Oslo,Stovner Oslo,4928,4928.0
+180,30111.0,30111.0,Stovner Oslo,Stovner Oslo,19358,19358.0
+181,30112.0,30111.0,Alna Oslo,Stovner Oslo,7398,7398.0
+182,30113.0,30111.0,Østensjø Oslo,Stovner Oslo,2246,2246.0
+183,30114.0,30111.0,Nordstrand Oslo,Stovner Oslo,1852,1852.0
+184,30115.0,30111.0,Søndre Nordstrand Oslo,Stovner Oslo,1335,1335.0
+185,30116.0,30111.0,Sentrum Oslo,Stovner Oslo,2213,2213.0
+186,30117.0,30111.0,Marka Oslo,Stovner Oslo,138,138.0
+187,30101.0,30112.0,Gamle Oslo,Alna Oslo,11523,5997.4
+188,30102.0,30112.0,Grünerløkka Oslo,Alna Oslo,8985,8985.0
+189,30103.0,30112.0,Sagene Oslo,Alna Oslo,5384,5384.0
+190,30104.0,30112.0,St. Hanshaugen Oslo,Alna Oslo,5946,5946.0
+191,30105.0,30112.0,Frogner Oslo,Alna Oslo,7528,7528.0
+192,30106.0,30112.0,Ullern Oslo,Alna Oslo,3386,3386.0
+193,30107.0,30112.0,Vestre Aker Oslo,Alna Oslo,4254,4254.0
+194,30108.0,30112.0,Nordre Aker Oslo,Alna Oslo,6748,6748.0
+195,30109.0,30112.0,Bjerke Oslo,Alna Oslo,9080,9080.0
+196,30110.0,30112.0,Grorud Oslo,Alna Oslo,6495,6495.0
+197,30111.0,30112.0,Stovner Oslo,Alna Oslo,7001,7001.0
+198,30112.0,30112.0,Alna Oslo,Alna Oslo,41430,41430.0
+199,30113.0,30112.0,Østensjø Oslo,Alna Oslo,10194,10194.0
+200,30114.0,30112.0,Nordstrand Oslo,Alna Oslo,6215,6215.0
+201,30115.0,30112.0,Søndre Nordstrand Oslo,Alna Oslo,4596,4596.0
+202,30116.0,30112.0,Sentrum Oslo,Alna Oslo,4364,4364.0
+203,30117.0,30112.0,Marka Oslo,Alna Oslo,521,521.0
+204,30101.0,30113.0,Gamle Oslo,Østensjø Oslo,9885,9945.6
+205,30102.0,30113.0,Grünerløkka Oslo,Østensjø Oslo,6438,6438.0
+206,30103.0,30113.0,Sagene Oslo,Østensjø Oslo,3673,3673.0
+207,30104.0,30113.0,St. Hanshaugen Oslo,Østensjø Oslo,5519,5519.0
+208,30105.0,30113.0,Frogner Oslo,Østensjø Oslo,6848,6848.0
+209,30106.0,30113.0,Ullern Oslo,Østensjø Oslo,3048,3048.0
+210,30107.0,30113.0,Vestre Aker Oslo,Østensjø Oslo,3315,3315.0
+211,30108.0,30113.0,Nordre Aker Oslo,Østensjø Oslo,5661,5661.0
+212,30109.0,30113.0,Bjerke Oslo,Østensjø Oslo,4120,4120.0
+213,30110.0,30113.0,Grorud Oslo,Østensjø Oslo,2513,2513.0
+214,30111.0,30113.0,Stovner Oslo,Østensjø Oslo,2457,2457.0
+215,30112.0,30113.0,Alna Oslo,Østensjø Oslo,10491,10491.0
+216,30113.0,30113.0,Østensjø Oslo,Østensjø Oslo,36238,36238.0
+217,30114.0,30113.0,Nordstrand Oslo,Østensjø Oslo,10161,10161.0
+218,30115.0,30113.0,Søndre Nordstrand Oslo,Østensjø Oslo,5853,5853.0
+219,30116.0,30113.0,Sentrum Oslo,Østensjø Oslo,4448,4448.0
+220,30117.0,30113.0,Marka Oslo,Østensjø Oslo,403,403.0
+221,30101.0,30114.0,Gamle Oslo,Nordstrand Oslo,9447,9430.5
+222,30102.0,30114.0,Grünerløkka Oslo,Nordstrand Oslo,6551,6551.0
+223,30103.0,30114.0,Sagene Oslo,Nordstrand Oslo,3724,3724.0
+224,30104.0,30114.0,St. Hanshaugen Oslo,Nordstrand Oslo,5896,5896.0
+225,30105.0,30114.0,Frogner Oslo,Nordstrand Oslo,8486,8486.0
+226,30106.0,30114.0,Ullern Oslo,Nordstrand Oslo,3539,3539.0
+227,30107.0,30114.0,Vestre Aker Oslo,Nordstrand Oslo,3662,3662.0
+228,30108.0,30114.0,Nordre Aker Oslo,Nordstrand Oslo,5566,5566.0
+229,30109.0,30114.0,Bjerke Oslo,Nordstrand Oslo,3211,3211.0
+230,30110.0,30114.0,Grorud Oslo,Nordstrand Oslo,1777,1777.0
+231,30111.0,30114.0,Stovner Oslo,Nordstrand Oslo,1774,1774.0
+232,30112.0,30114.0,Alna Oslo,Nordstrand Oslo,6306,6306.0
+233,30113.0,30114.0,Østensjø Oslo,Nordstrand Oslo,10248,10248.0
+234,30114.0,30114.0,Nordstrand Oslo,Nordstrand Oslo,41953,41953.0
+235,30115.0,30114.0,Søndre Nordstrand Oslo,Nordstrand Oslo,8494,8494.0
+236,30116.0,30114.0,Sentrum Oslo,Nordstrand Oslo,5172,5172.0
+237,30117.0,30114.0,Marka Oslo,Nordstrand Oslo,187,187.0
+238,30101.0,30115.0,Gamle Oslo,Søndre Nordstrand Oslo,5692,4718.5
+239,30102.0,30115.0,Grünerløkka Oslo,Søndre Nordstrand Oslo,3847,3847.0
+240,30103.0,30115.0,Sagene Oslo,Søndre Nordstrand Oslo,1800,1800.0
+241,30104.0,30115.0,St. Hanshaugen Oslo,Søndre Nordstrand Oslo,3562,3562.0
+242,30105.0,30115.0,Frogner Oslo,Søndre Nordstrand Oslo,4208,4208.0
+243,30106.0,30115.0,Ullern Oslo,Søndre Nordstrand Oslo,1803,1803.0
+244,30107.0,30115.0,Vestre Aker Oslo,Søndre Nordstrand Oslo,2016,2016.0
+245,30108.0,30115.0,Nordre Aker Oslo,Søndre Nordstrand Oslo,3025,3025.0
+246,30109.0,30115.0,Bjerke Oslo,Søndre Nordstrand Oslo,2064,2064.0
+247,30110.0,30115.0,Grorud Oslo,Søndre Nordstrand Oslo,1320,1320.0
+248,30111.0,30115.0,Stovner Oslo,Søndre Nordstrand Oslo,1321,1321.0
+249,30112.0,30115.0,Alna Oslo,Søndre Nordstrand Oslo,4550,4550.0
+250,30113.0,30115.0,Østensjø Oslo,Søndre Nordstrand Oslo,5826,5826.0
+251,30114.0,30115.0,Nordstrand Oslo,Søndre Nordstrand Oslo,8781,8781.0
+252,30115.0,30115.0,Søndre Nordstrand Oslo,Søndre Nordstrand Oslo,22139,22139.0
+253,30116.0,30115.0,Sentrum Oslo,Søndre Nordstrand Oslo,3323,3323.0
+254,30117.0,30115.0,Marka Oslo,Søndre Nordstrand Oslo,123,123.0
+255,30101.0,30116.0,Gamle Oslo,Sentrum Oslo,11361,11921.4
+256,30102.0,30116.0,Grünerløkka Oslo,Sentrum Oslo,9811,9811.0
+257,30103.0,30116.0,Sagene Oslo,Sentrum Oslo,5477,5477.0
+258,30104.0,30116.0,St. Hanshaugen Oslo,Sentrum Oslo,12214,12214.0
+259,30105.0,30116.0,Frogner Oslo,Sentrum Oslo,14508,14508.0
+260,30106.0,30116.0,Ullern Oslo,Sentrum Oslo,3998,3998.0
+261,30107.0,30116.0,Vestre Aker Oslo,Sentrum Oslo,4681,4681.0
+262,30108.0,30116.0,Nordre Aker Oslo,Sentrum Oslo,6294,6294.0
+263,30109.0,30116.0,Bjerke Oslo,Sentrum Oslo,2896,2896.0
+264,30110.0,30116.0,Grorud Oslo,Sentrum Oslo,2003,2003.0
+265,30111.0,30116.0,Stovner Oslo,Sentrum Oslo,2088,2088.0
+266,30112.0,30116.0,Alna Oslo,Sentrum Oslo,4407,4407.0
+267,30113.0,30116.0,Østensjø Oslo,Sentrum Oslo,4326,4326.0
+268,30114.0,30116.0,Nordstrand Oslo,Sentrum Oslo,4968,4968.0
+269,30115.0,30116.0,Søndre Nordstrand Oslo,Sentrum Oslo,2988,2988.0
+270,30116.0,30116.0,Sentrum Oslo,Sentrum Oslo,25783,25783.0
+271,30117.0,30116.0,Marka Oslo,Sentrum Oslo,252,252.0
+272,30101.0,30117.0,Gamle Oslo,Marka Oslo,380,697.5
+273,30102.0,30117.0,Grünerløkka Oslo,Marka Oslo,565,565.0
+274,30103.0,30117.0,Sagene Oslo,Marka Oslo,611,611.0
+275,30104.0,30117.0,St. Hanshaugen Oslo,Marka Oslo,567,567.0
+276,30105.0,30117.0,Frogner Oslo,Marka Oslo,711,711.0
+277,30106.0,30117.0,Ullern Oslo,Marka Oslo,508,508.0
+278,30107.0,30117.0,Vestre Aker Oslo,Marka Oslo,1284,1284.0
+279,30108.0,30117.0,Nordre Aker Oslo,Marka Oslo,1417,1417.0
+280,30109.0,30117.0,Bjerke Oslo,Marka Oslo,441,441.0
+281,30110.0,30117.0,Grorud Oslo,Marka Oslo,252,252.0
+282,30111.0,30117.0,Stovner Oslo,Marka Oslo,153,153.0
+283,30112.0,30117.0,Alna Oslo,Marka Oslo,601,601.0
+284,30113.0,30117.0,Østensjø Oslo,Marka Oslo,427,427.0
+285,30114.0,30117.0,Nordstrand Oslo,Marka Oslo,213,213.0
+286,30115.0,30117.0,Søndre Nordstrand Oslo,Marka Oslo,171,171.0
+287,30116.0,30117.0,Sentrum Oslo,Marka Oslo,291,291.0
+288,30117.0,30117.0,Marka Oslo,Marka Oslo,1492,1492.0
