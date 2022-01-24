@@ -763,17 +763,9 @@ def analyze(clicks,subdivision,parameter,existing_input,revised_input,variation)
     print(len(input_values))
 
     #return (dash.no_update, dash.no_update,dash.no_update,dash.no_update)
-  #  wml_credentials = {
-     #  "url": "https://eu-de.ml.cloud.ibm.com",
-     #  "apikey": "5iLReM2ZZVXnVRMaAcSA4rfGnInWte72CgK0PcCLkyKY",
-      #  "instance_id": "v2 Standard instance_id"
-   # }
-   # client = APIClient(wml_credentials)
-   # CP = client.service_instance.get_details()
-    #CUH = CP["entity"]["usage"]["capacity_units"]["current"] / (3600 * 1000)
-    #print(CUH)
 
-    API_KEY = '5iLReM2ZZVXnVRMaAcSA4rfGnInWte72CgK0PcCLkyKY'
+
+    API_KEY = 'api_key'
     token_response = requests.post('https://iam.cloud.ibm.com/identity/token',
                                        data={"apikey": API_KEY, "grant_type": 'urn:ibm:params:oauth:grant-type:apikey'})
     mltoken = token_response.json()["access_token"]
@@ -785,7 +777,7 @@ def analyze(clicks,subdivision,parameter,existing_input,revised_input,variation)
                                         "values": input_values
                                        }]}
     response_scoring = requests.post(
-           'https://eu-de.ml.cloud.ibm.com/ml/v4/deployments/4584b9a1-1730-46c3-a4fd-efc2eaa73d44/predictions?version=2022-01-20',
+           'https://eu-de.ml.cloud.ibm.com/ml/v4/deployments/deployment_id/predictions?version=2022-01-20',
            json=payload_scoring, headers=header)
     print("Scoring response")
     print(response_scoring.json())
