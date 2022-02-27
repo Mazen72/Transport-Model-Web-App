@@ -5,4 +5,4 @@ this is a web dashboard for visualizing IBM ML Model that predicts trips between
 ![alt text](https://github.com/Mazen72/Transport-Model-Wep-App/blob/updates/imgs/last.png?raw=true)
 
 
-
+ 
